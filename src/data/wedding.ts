@@ -95,6 +95,7 @@ export const events: WeddingEvent[] = [
     description:
       "Join us for an evening of celebration, happiness, delicious food, and cherished memories.",
     icon: "sparkles",
+    highlight: true,
   },
   {
     id: "muhurtham",

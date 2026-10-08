@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Allura, Noto_Serif_Kannada, Poppins } from "next/font/google";
+import { DM_Serif_Display, Corinthia, Noto_Serif_Kannada, Poppins } from "next/font/google";
 import { site } from "@/data/wedding";
 import "./globals.css";
 
@@ -21,10 +21,10 @@ const body = Poppins({
 });
 
 /** The couple's names in the hero */
-const script = Allura({
+const script = Corinthia({
   variable: "--font-script-face",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "700"],
   display: "swap",
 });
 

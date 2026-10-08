@@ -20,7 +20,7 @@ export function FinalQuote() {
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-vermilion">
             {finalQuote.signoff} <Kannada className="text-base normal-case tracking-normal">· {finalQuote.knSignoff}</Kannada>
           </p>
-          <p className="mt-2 font-script text-5xl text-ink sm:text-6xl">{couple.names}</p>
+          <p className="mt-2 font-script text-6xl text-ink sm:text-7xl">{couple.names}</p>
         </Reveal>
       </div>
     </section>

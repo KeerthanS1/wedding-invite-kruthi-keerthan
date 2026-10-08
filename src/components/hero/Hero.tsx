@@ -62,7 +62,7 @@ export function Hero({ poster }: { poster?: Photo }) {
           <Kannada>{couple.knGreeting}</Kannada>
         </motion.p>
 
-        <h1 className="text-legible font-script font-normal leading-[1.05] text-[clamp(3.1rem,13vw,8rem)]" aria-label={couple.names}>
+        <h1 className="text-legible font-script font-normal leading-[1.05] text-[clamp(4.2rem,17vw,10.5rem)]" aria-label={couple.names}>
           <motion.span variants={rise} className="flex flex-col items-center sm:block" aria-hidden="true">
             <span>{couple.first}</span>
             <span className="text-turmeric sm:mx-4">&amp;</span>
