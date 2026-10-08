@@ -21,7 +21,7 @@ export const weddingDate = {
 export const story = {
   kn: "ಆಹ್ವಾನ",
   heading: "Two Hearts, One Beautiful Journey",
-  text: "With hearts full of love and happiness, we invite you to celebrate the beginning of our forever. Join Kruthi and Keerthan as they embark on this beautiful journey together, surrounded by the love and blessings of their family and friends.",
+  text: "With hearts full of love and happiness, we are beginning the most beautiful chapter of our lives, and it would mean the world to us to have you with us. Please join us as we celebrate the start of our forever, and bless us with your love, your presence and your good wishes.",
   knInvite: "ತಮ್ಮೆಲ್ಲರಿಗೂ ಆತ್ಮೀಯ ಸ್ವಾಗತ",
 } as const;
 
@@ -67,7 +67,7 @@ export const events: WeddingEvent[] = [
   {
     id: "haldi",
     title: "Haldi",
-    kn: "ಅರಿಶಿನ",
+    kn: "ಅರಿಶಿನ ಶಾಸ್ತ್ರ",
     date: "18 November 2026",
     isoDate: "2026-11-18",
     description:

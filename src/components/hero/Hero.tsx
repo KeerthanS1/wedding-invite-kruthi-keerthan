@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { Photo } from "@/types";
 import { couple, weddingDate } from "@/data/wedding";
+import { heroVideo } from "@/data/photos";
 import { EASE_OUT } from "@/lib/utils";
 import { Picture } from "@/components/ui/Picture";
 import { Kannada } from "@/components/ui/Kannada";
-
-const SLIDE_MS = 4800;
 
 const container: Variants = {
   hidden: {},
@@ -19,22 +17,12 @@ const rise: Variants = {
   shown: { opacity: 1, y: 0, transition: { duration: 1.2, ease: EASE_OUT } },
 };
 
-/** Alternate the Ken Burns drift direction so the carousel never feels repetitive. */
-const ORIGINS = ["50% 40%", "30% 60%", "70% 45%", "55% 70%"];
-
-/** Full-screen photo carousel with just the names, tagline and date. */
-export function Hero({ photos }: { photos: Photo[] }) {
+/**
+ * Full-screen background film with the names, tagline and date over it.
+ * The poster photo shows while the video loads, and stays for reduced-motion visitors.
+ */
+export function Hero({ poster }: { poster?: Photo }) {
   const reduce = useReducedMotion();
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (photos.length < 2) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % photos.length), SLIDE_MS);
-    return () => window.clearInterval(id);
-  }, [photos.length]);
-
-  const current = photos[index];
-  const upcoming = photos.length > 1 ? photos[(index + 1) % photos.length] : null;
 
   return (
     <section
@@ -43,36 +31,23 @@ export function Hero({ photos }: { photos: Photo[] }) {
       className="relative isolate flex h-svh min-h-[30rem] w-full items-end justify-center overflow-hidden bg-maroon-deep"
     >
       <div className="absolute inset-0 -z-10">
-        <AnimatePresence initial={false}>
-          {current && (
-            <motion.div
-              key={index}
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.6, ease: "easeInOut" }}
-            >
-              <motion.div
-                className="absolute inset-0"
-                style={{ transformOrigin: ORIGINS[index % ORIGINS.length] }}
-                initial={{ scale: reduce ? 1 : 1.02 }}
-                animate={{ scale: reduce ? 1 : 1.12 }}
-                transition={{ duration: (SLIDE_MS + 2200) / 1000, ease: "linear" }}
-              >
-                <Picture photo={current} sizes="100vw" priority={index === 0} />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* warm the next frame so the crossfade never stalls */}
-        {upcoming && (
-          <div className="pointer-events-none absolute left-0 top-0 size-px overflow-hidden opacity-0">
-            <Picture photo={upcoming} sizes="100vw" />
-          </div>
+        {poster && <Picture photo={poster} sizes="100vw" priority />}
+        {!reduce && (
+          <video
+            className="absolute inset-0 size-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={poster?.src.endsWith(".svg") ? undefined : poster?.src}
+            aria-hidden="true"
+            tabIndex={-1}
+          >
+            {heroVideo.webm && <source src={heroVideo.webm} type="video/webm" />}
+            <source src={heroVideo.mp4} type="video/mp4" />
+          </video>
         )}
-
         {/* soft veil, strongest at the bottom where the text sits */}
         <div className="absolute inset-0 bg-linear-to-b from-maroon-deep/40 via-transparent to-maroon-deep/85" />
       </div>

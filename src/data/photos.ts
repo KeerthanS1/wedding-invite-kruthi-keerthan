@@ -57,3 +57,14 @@ export const placeholderCount: Record<ChapterKey, number> = {
   lake: 3,
   pottery: 5,
 };
+
+/**
+ * Hero background video (plays muted, looping, behind the names).
+ * Replace public/videos/hero.mp4 with your own film. Keep it short (15-30s)
+ * and under ~8 MB so it loads quickly on phones. A .webm next to it is optional.
+ * The first hero / chapter photo is shown as the poster while it loads.
+ */
+export const heroVideo = {
+  mp4: "/videos/hero.mp4",
+  webm: undefined as string | undefined,
+};

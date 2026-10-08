@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Acilla Tristan: drop AcillaTristan.otf (or .ttf) into public/fonts/.
+   Until then the names fall back to Great Vibes. */
+@font-face {
+  font-family: "Acilla Tristan";
+  src:
+    url("/fonts/AcillaTristan.otf") format("opentype"),
+    url("/fonts/AcillaTristan.ttf") format("truetype");
+  font-display: swap;
+}
+
 /* ───────── South Indian heritage palette ───────── */
 @theme {
   --color-ivory: #fbf5e6; /* temple cream */
@@ -21,7 +31,7 @@
 @theme inline {
   --font-display: var(--font-display-face), Georgia, serif;
   --font-sans: var(--font-body-face), system-ui, sans-serif;
-  --font-script: var(--font-script), cursive;
+  --font-script: "Acilla Tristan", var(--font-script-fallback), cursive;
   --font-kn: var(--font-kannada), serif;
 }
 

@@ -39,7 +39,7 @@ export default function Home() {
       <SmoothScroll />
       <GalleryProvider>
         <main>
-          <Hero photos={photos.hero} />
+          <Hero poster={photos.hero[0]} />
           <OurStory photo={traditional[1] ?? traditional[0] ?? pottery[0]} />
           <EventsTimeline />
           <Venue />

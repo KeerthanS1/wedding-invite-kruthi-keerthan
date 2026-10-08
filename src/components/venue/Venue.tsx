@@ -89,9 +89,9 @@ export function Venue() {
             <div className="relative border-x border-b border-brass/60 bg-sandal/50 pb-2 pt-3">
               <TempleBorder />
             </div>
-            <div className="pointer-events-none flex justify-center text-brass/60">
-              <Rangoli petals={16} size={150} className="-mt-5 size-36 sm:size-40" />
-            </div>
+          </div>
+          <div className="pointer-events-none mt-10 flex justify-center text-brass/70 sm:mt-14">
+            <Rangoli petals={12} size={96} className="size-20 sm:size-24" />
           </div>
         </Reveal>
       </div>

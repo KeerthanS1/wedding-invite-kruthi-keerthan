@@ -22,7 +22,7 @@ const body = Poppins({
 
 /** The couple's names in the hero */
 const script = Great_Vibes({
-  variable: "--font-script",
+  variable: "--font-script-fallback",
   subsets: ["latin"],
   weight: "400",
   display: "swap",
