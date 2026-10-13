@@ -12,19 +12,21 @@ function PersonCard({ person, photo, accent, delay }: { person: Person; photo: P
   return (
     <Reveal delay={delay} className="h-full">
       <article className="flex h-full flex-col items-center text-center">
-        <div className="relative w-full max-w-[17rem] sm:max-w-sm">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-sand">
-            <Picture photo={photo} sizes="(min-width: 768px) 384px, 90vw" />
+        <div className="relative w-full max-w-[13.5rem] sm:max-w-[16rem]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-sand">
+            <Picture photo={photo} sizes="(min-width: 640px) 256px, 216px" />
           </div>
+          {/* Kannada and Latin scripts sit on different baselines, so each part is
+              its own flex box with line-height 1 and the row centres them. */}
           <p
             className={cn(
-              "absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold text-cream shadow-lg",
+              "absolute -bottom-4 left-1/2 flex h-9 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full px-4 text-sm font-semibold leading-none text-cream shadow-lg",
               pill,
             )}
           >
-            <Kannada className="text-base">{person.knRole}</Kannada>
-            <span aria-hidden="true">·</span>
-            <span>{person.role}</span>
+            <Kannada className="flex h-full items-center pt-0.5 text-[0.95rem] leading-none">{person.knRole}</Kannada>
+            <span aria-hidden="true" className="flex h-full items-center leading-none">·</span>
+            <span className="flex h-full items-center leading-none">{person.role}</span>
           </p>
         </div>
 

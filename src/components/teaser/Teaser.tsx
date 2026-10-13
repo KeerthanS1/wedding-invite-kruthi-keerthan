@@ -1,21 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { teaser } from "@/data/wedding";
 import { teaserVideo } from "@/data/photos";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
+const controlButton =
+  "flex h-10 items-center gap-2 rounded-full bg-cream/90 px-4 text-sm font-semibold text-plum shadow-lg backdrop-blur transition-transform hover:scale-105";
+
 /**
- * The teaser film. It plays when it scrolls into view and pauses when it leaves.
+ * The teaser film. It autoplays when it scrolls into view and pauses when it leaves,
+ * unless the visitor has paused it themselves.
  * It tries to start with sound; browsers only allow that after the visitor has
  * tapped or clicked the page, so otherwise it starts muted and the first tap unmutes it.
  */
 export function Teaser() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const inView = useRef(false);
+  const pausedByVisitor = useRef(false);
   const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -36,8 +42,11 @@ export function Teaser() {
     const io = new IntersectionObserver(
       ([entry]) => {
         inView.current = entry.isIntersecting;
-        if (entry.isIntersecting) playWithSound();
-        else video.pause();
+        if (entry.isIntersecting) {
+          if (!pausedByVisitor.current) playWithSound();
+        } else {
+          video.pause();
+        }
       },
       { threshold: 0.45 },
     );
@@ -45,7 +54,7 @@ export function Teaser() {
 
     // The first tap/click/key anywhere counts as permission for sound.
     const unlock = () => {
-      if (inView.current && video.muted) playWithSound();
+      if (inView.current && video.muted && !pausedByVisitor.current) playWithSound();
     };
     window.addEventListener("pointerdown", unlock, { once: true });
     window.addEventListener("keydown", unlock, { once: true });
@@ -57,12 +66,23 @@ export function Teaser() {
     };
   }, []);
 
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      pausedByVisitor.current = false;
+      video.play().catch(() => {});
+    } else {
+      pausedByVisitor.current = true;
+      video.pause();
+    }
+  };
+
   const toggleSound = () => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = !video.muted;
     setMuted(video.muted);
-    if (video.paused) video.play().catch(() => {});
   };
 
   return (
@@ -74,26 +94,41 @@ export function Teaser() {
           <div className="relative overflow-hidden rounded-3xl bg-plum-deep shadow-[10px_10px_0_var(--color-marigold)] sm:shadow-[14px_14px_0_var(--color-marigold)]">
             <video
               ref={videoRef}
-              className="block aspect-video w-full object-cover"
+              className="block aspect-video w-full cursor-pointer object-cover"
               loop
               playsInline
               muted
               preload="metadata"
-              onClick={toggleSound}
+              onClick={togglePlay}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
             >
               {teaserVideo.webm && <source src={teaserVideo.webm} type="video/webm" />}
               <source src={teaserVideo.mp4} type="video/mp4" />
             </video>
 
-            <button
-              type="button"
-              onClick={toggleSound}
-              aria-label={muted ? "Turn sound on" : "Turn sound off"}
-              className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-cream/90 px-4 py-2 text-sm font-semibold text-plum shadow-lg backdrop-blur transition-transform hover:scale-105 sm:bottom-5 sm:right-5"
-            >
-              {muted ? <VolumeX className="size-4" aria-hidden="true" /> : <Volume2 className="size-4" aria-hidden="true" />}
-              {muted ? "Tap for sound" : "Sound on"}
-            </button>
+            {/* big centre play button while paused */}
+            {!playing && (
+              <button
+                type="button"
+                onClick={togglePlay}
+                aria-label="Play the teaser"
+                className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-rani text-cream shadow-xl transition-transform hover:scale-110 sm:size-20"
+              >
+                <Play className="ml-1 size-7 fill-current sm:size-9" aria-hidden="true" />
+              </button>
+            )}
+
+            <div className="absolute inset-x-3 bottom-3 flex justify-between gap-2 sm:inset-x-5 sm:bottom-5">
+              <button type="button" onClick={togglePlay} aria-label={playing ? "Pause the teaser" : "Play the teaser"} className={controlButton}>
+                {playing ? <Pause className="size-4 fill-current" aria-hidden="true" /> : <Play className="size-4 fill-current" aria-hidden="true" />}
+                {playing ? "Pause" : "Play"}
+              </button>
+              <button type="button" onClick={toggleSound} aria-label={muted ? "Turn sound on" : "Turn sound off"} className={controlButton}>
+                {muted ? <VolumeX className="size-4" aria-hidden="true" /> : <Volume2 className="size-4" aria-hidden="true" />}
+                {muted ? "Tap for sound" : "Sound on"}
+              </button>
+            </div>
           </div>
         </Reveal>
       </div>
