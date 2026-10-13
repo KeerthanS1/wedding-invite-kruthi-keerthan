@@ -4,6 +4,10 @@ import { cn } from "@/lib/utils";
 /**
  * A cutting-chai glass and a South Indian filter-coffee tumbler in its davara,
  * with a heart between them and gently rising steam.
+ *
+ * Layout (viewBox 240 × 130): both cups stand on the same baseline (y = 112)
+ * and rise to the same rim height (y = 42); chai is centred at x = 60, the heart at
+ * x = 120 and the coffee at x = 180, so the spacing is symmetrical.
  */
 export function ChaiCoffee({ className }: { className?: string }) {
   const id = useId().replace(/:/g, "");
@@ -22,8 +26,10 @@ export function ChaiCoffee({ className }: { className?: string }) {
     />
   );
 
+  const outline = { stroke: "currentColor", strokeWidth: 2.5, strokeLinejoin: "round" as const };
+
   return (
-    <svg viewBox="0 0 230 130" className={cn("block text-plum", className)} aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 240 130" className={cn("block text-plum", className)} aria-hidden="true" focusable="false">
       <defs>
         {/* brushed stainless steel */}
         <linearGradient id={steel} x1="0" x2="1">
@@ -34,37 +40,41 @@ export function ChaiCoffee({ className }: { className?: string }) {
         </linearGradient>
       </defs>
 
-      {/* chai: tapered glass, half full */}
-      {steam(42, 34, 0)}
-      {steam(56, 34, 1.1)}
-      <path d="M24.4 60 L32 112 H68 L75.6 60 Z" fill="#c98a4b" />
-      <path d="M24.4 60 H75.6" stroke="#f3d9b8" strokeWidth="3" />
-      <path d="M20 40 L30 114 H70 L80 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M36 66 L40 106 M50 66 V106 M64 66 L60 106" stroke="#fff7ea" strokeOpacity="0.35" strokeWidth="2" />
+      {/* ── chai: tapered cutting-chai glass, centred at x = 60 ── */}
+      {steam(53, 36, 0)}
+      {steam(67, 36, 1.1)}
+      <path d="M32.6 60 L40 112 H80 L87.4 60 Z" fill="#c98a4b" />
+      <path d="M32.6 60 H87.4" stroke="#f3d9b8" strokeWidth="3" />
+      <path d="M46 67 L49 106 M60 67 V106 M74 67 L71 106" stroke="#fff7ea" strokeOpacity="0.35" strokeWidth="2" />
+      <path d="M30 42 L40 112 H80 L90 42" fill="none" {...outline} />
 
-      {/* heart */}
+      {/* ── heart, centred at x = 120 between the cups ── */}
       <path
-        d="M115 86 C104 78 100 70 106 64 C110 60 115 63 115 67 C115 63 120 60 124 64 C130 70 126 78 115 86Z"
+        d="M120 90 C109 82 105 74 111 68 C115 64 120 67 120 71 C120 67 125 64 129 68 C135 74 131 82 120 90Z"
         fill="var(--color-rani)"
       />
 
-      {/* filter coffee: frothy steel tumbler standing in its davara */}
-      {steam(166, 26, 0.6)}
-      {steam(181, 26, 1.7)}
-      {/* tumbler */}
-      <path d="M152 40 L156 100 H190 L194 40 Z" fill={`url(#${steel})`} stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M163 46 L165 96" stroke="#fff" strokeOpacity="0.8" strokeWidth="2.5" strokeLinecap="round" />
-      {/* froth spilling over the rim */}
-      <path d="M152 39 Q151 29 162 30 Q166 23 174 26 Q182 22 186 29 Q196 29 194 39 Z" fill="#d9b48a" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <circle cx="166" cy="32" r="1.6" fill="#fff7ea" />
-      <circle cx="178" cy="30" r="1.2" fill="#fff7ea" />
-      <circle cx="186" cy="34" r="1.4" fill="#fff7ea" />
+      {/* ── filter coffee: steel tumbler in its davara, centred at x = 180 ── */}
+      {steam(173, 30, 0.6)}
+      {steam(187, 30, 1.7)}
+      {/* tumbler (its base is hidden by the davara) */}
+      <path d="M161 45 L164 94 H196 L199 45 Z" fill={`url(#${steel})`} {...outline} />
+      <path d="M170 51 L171.5 90" stroke="#fff" strokeOpacity="0.8" strokeWidth="2.5" strokeLinecap="round" />
+      {/* froth rising just above the rim */}
+      <path
+        d="M162 43 Q161 35 168 35 Q172 30 180 31.5 Q188 30 192 35 Q199 35 198 43 Z"
+        fill="#d9b48a"
+        {...outline}
+      />
+      <circle cx="171" cy="38" r="1.4" fill="#fff7ea" />
+      <circle cx="182" cy="36" r="1.2" fill="#fff7ea" />
+      <circle cx="190" cy="39" r="1.3" fill="#fff7ea" />
       {/* rolled rim */}
-      <rect x="149" y="38" width="48" height="5" rx="2.5" fill={`url(#${steel})`} stroke="currentColor" strokeWidth="2.5" />
-      {/* davara: wide steel bowl, its front hides the tumbler's base */}
-      <path d="M134 90 H212 L208 110 Q173 118 138 110 Z" fill={`url(#${steel})`} stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <rect x="129" y="86" width="88" height="6" rx="3" fill={`url(#${steel})`} stroke="currentColor" strokeWidth="2.5" />
-      <path d="M146 96 L148 108" stroke="#fff" strokeOpacity="0.8" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="158" y="42" width="44" height="5" rx="2.5" fill={`url(#${steel})`} {...outline} />
+      {/* davara: wide, shallow bowl standing on the shared baseline */}
+      <path d="M150 94 H210 L206 108 Q180 112.5 154 108 Z" fill={`url(#${steel})`} {...outline} />
+      <rect x="146" y="89" width="68" height="6" rx="3" fill={`url(#${steel})`} {...outline} />
+      <path d="M159 98 L160.5 107" stroke="#fff" strokeOpacity="0.8" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
