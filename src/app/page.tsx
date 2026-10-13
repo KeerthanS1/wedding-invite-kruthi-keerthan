@@ -1,15 +1,16 @@
 import { couple, site, venue, weddingDate } from "@/data/wedding";
 import { getSitePhotos } from "@/lib/photos";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { Ribbon } from "@/components/layout/Ribbon";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
-import { OurStory } from "@/components/story/OurStory";
+import { Invitation } from "@/components/invitation/Invitation";
+import { Couple } from "@/components/couple/Couple";
+import { Teaser } from "@/components/teaser/Teaser";
+import { Celebrations } from "@/components/events/Celebrations";
 import { GalleryProvider } from "@/components/gallery/GalleryProvider";
-import { PreWeddingJourney } from "@/components/gallery/PreWeddingJourney";
-import { EventsTimeline } from "@/components/events/EventsTimeline";
+import { QuoteGallery } from "@/components/gallery/QuoteGallery";
 import { Countdown } from "@/components/countdown/Countdown";
-import { Venue } from "@/components/venue/Venue";
-import { FinalQuote } from "@/components/quote/FinalQuote";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -28,7 +29,6 @@ const structuredData = {
 
 export default function Home() {
   const photos = getSitePhotos();
-  const { traditional, pottery } = photos.chapters;
 
   return (
     <>
@@ -38,13 +38,14 @@ export default function Home() {
       />
       <SmoothScroll />
       <GalleryProvider>
-        <main>
-          <Hero poster={photos.hero[0]} />
-          <OurStory photo={traditional[1] ?? traditional[0] ?? pottery[0]} />
-          <EventsTimeline />
-          <Venue />
-          <PreWeddingJourney chapters={photos.chapters} />
-          <FinalQuote />
+        <main className="overflow-x-clip">
+          <Hero photos={photos.hero} />
+          <Ribbon />
+          <Invitation photos={photos.invitation} />
+          <Couple bride={photos.bride} groom={photos.groom} />
+          <Teaser />
+          <Celebrations />
+          <QuoteGallery photos={photos.gallery} />
           <Countdown />
         </main>
       </GalleryProvider>

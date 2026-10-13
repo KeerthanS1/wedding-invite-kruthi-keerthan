@@ -1,70 +1,63 @@
-import type { ChapterKey, PhotoGroup, PhotoInput } from "@/types";
+import type { PhotoGroup, PhotoInput } from "@/types";
 
 /**
  * ─────────────────────────────────────────────────────────────
- *  PHOTO CONFIGURATION
+ *  PHOTOS & VIDEO
  * ─────────────────────────────────────────────────────────────
- *  Drop your photographs into the folders below. That's it –
- *  any group left EMPTY here is filled automatically with every
- *  image found in its folder (sorted by file name: 01.jpg, 02.jpg …).
+ *  Drop files into these folders. Each one is read in file-name order
+ *  (01.jpg, 02.jpg …), so naming controls the order.
  *
- *  Want control over order, alt text or cropping? List the files:
+ *    public/images/hero/        3–4 photos for the opening carousel
+ *    public/images/invitation/  8 photos for the grid under the invitation
+ *                               (any extras join the scrolling gallery)
+ *    public/images/couple/      bride.jpg and groom.jpg
+ *    public/images/gallery/     everything else, for the scrolling gallery
+ *    public/videos/teaser.mp4   the teaser film
  *
- *    traditional: [
- *      "01-couple.jpg",
- *      { file: "02-temple.jpg", alt: "Kruthi and Keerthan at the temple",
- *        position: "50% 20%" },        // keep faces in frame when cropped
+ *  Leave a list below empty to use the folder as-is, or list files to
+ *  control order, alt text and crop focus:
+ *
+ *    invitation: [
+ *      "01.jpg",
+ *      { file: "02.jpg", alt: "Kruthi laughing", position: "50% 20%" },
  *    ],
  *
- *  Until real photos are added, soft placeholders are shown.
+ *  Until real photos are added, colourful placeholders are shown.
  */
 
 export const photoFolders: Record<PhotoGroup, string> = {
   hero: "/images/hero",
-  traditional: "/images/pre-wedding/traditional",
-  street: "/images/pre-wedding/street",
-  lake: "/images/pre-wedding/lake",
-  pottery: "/images/pre-wedding/pottery",
+  invitation: "/images/invitation",
+  gallery: "/images/gallery",
 };
 
 export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
-  /**
-   * Optional. Leave empty and the hero carousel automatically cycles
-   * Traditional → Street → Lake → Pottery using your chapter photos.
-   * Add files here (public/images/hero) for a custom hero sequence.
-   */
   hero: [],
-
-  traditional: [],
-  street: [],
-  lake: [],
-  pottery: [],
+  invitation: [],
+  gallery: [],
 };
+
+/** How many photos each spot shows */
+export const limits = {
+  hero: 4,
+  invitation: 8,
+} as const;
+
+export const couplePhotos = {
+  folder: "/images/couple",
+  bride: { name: "bride", alt: "Kruthi, the bride", position: "50% 30%" },
+  groom: { name: "groom", alt: "Keerthan, the groom", position: "50% 30%" },
+} as const;
 
 /** Describes the photos for screen readers when no per-photo alt is given. */
 export const defaultAlt: Record<PhotoGroup, string> = {
   hero: "Kruthi and Keerthan",
-  traditional: "Kruthi and Keerthan in traditional attire",
-  street: "Kruthi and Keerthan sharing a candid moment on the street",
-  lake: "Kruthi and Keerthan by the lake",
-  pottery: "Kruthi and Keerthan shaping clay together",
+  invitation: "Kruthi and Keerthan together",
+  gallery: "A moment with Kruthi and Keerthan",
 };
 
-/** Number of stand-in frames shown for each chapter until real photos exist. */
-export const placeholderCount: Record<ChapterKey, number> = {
-  traditional: 5,
-  street: 5,
-  lake: 3,
-  pottery: 5,
-};
-
-/**
- * Hero background video (plays muted, looping, behind the names).
- * Replace public/videos/hero.mp4 with your own film. Keep it short (15-30s)
- * and under ~8 MB so it loads quickly on phones. A .webm next to it is optional.
- * The first hero / chapter photo is shown as the poster while it loads.
- */
-export const heroVideo = {
-  mp4: "/videos/hero.mp4",
+/** The teaser film. Plays with sound when it scrolls into view (if the browser allows). */
+export const teaserVideo = {
+  mp4: "/videos/teaser.mp4",
   webm: undefined as string | undefined,
 };

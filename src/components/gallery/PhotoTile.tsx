@@ -30,15 +30,15 @@ export function PhotoTile({ group, index, sizes, className, imageClassName, prio
       onClick={() => open(group, index)}
       aria-haspopup="dialog"
       aria-label={`View larger: ${photo.alt}`}
-      className={cn("group relative block w-full cursor-zoom-in overflow-hidden bg-sandal", className)}
+      className={cn("group relative block w-full cursor-zoom-in overflow-hidden bg-sand", className)}
     >
       <Picture
         photo={photo}
         sizes={sizes}
         priority={priority}
-        className={cn("transition-transform duration-[1600ms] ease-out group-hover:scale-[1.045]", imageClassName)}
+        className={cn("transition-transform duration-[1600ms] ease-out group-hover:scale-[1.05]", imageClassName)}
       />
-      <span className="pointer-events-none absolute inset-0 bg-maroon-deep/0 transition-colors duration-700 group-hover:bg-maroon-deep/10" />
+      <span className="pointer-events-none absolute inset-0 bg-plum-deep/0 transition-colors duration-700 group-hover:bg-plum-deep/10" />
       {children}
     </button>
   );

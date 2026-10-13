@@ -15,9 +15,9 @@ export default function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#3a0f17",
+          background: "#3b1846",
           color: "#fbf5e6",
-          border: "14px solid #3a0f17",
+          border: "14px solid #3b1846",
           fontFamily: "serif",
         }}
       >
@@ -29,13 +29,13 @@ export default function OpengraphImage() {
             justifyContent: "center",
             width: "100%",
             height: "100%",
-            border: "2px solid #c9a24d",
+            border: "2px solid #f6c443",
           }}
         >
-          <div style={{ fontSize: 26, letterSpacing: 12, color: "#c9a24d" }}>TOGETHER WITH OUR FAMILIES</div>
+          <div style={{ fontSize: 26, letterSpacing: 12, color: "#f6c443" }}>TOGETHER WITH OUR FAMILIES</div>
           <div style={{ fontSize: 118, marginTop: 28, display: "flex" }}>Kruthi &amp; Keerthan</div>
-          <div style={{ fontSize: 36, marginTop: 14, fontStyle: "italic", color: "#e6d5b4" }}>Our Forever Begins Here</div>
-          <div style={{ fontSize: 28, marginTop: 36, letterSpacing: 10, color: "#c9a24d" }}>20 NOVEMBER 2026</div>
+          <div style={{ fontSize: 36, marginTop: 14, fontStyle: "italic", color: "#fbe9cc" }}>Our Forever Begins Here</div>
+          <div style={{ fontSize: 28, marginTop: 36, letterSpacing: 10, color: "#f6c443" }}>20 NOVEMBER 2026</div>
         </div>
       </div>
     ),

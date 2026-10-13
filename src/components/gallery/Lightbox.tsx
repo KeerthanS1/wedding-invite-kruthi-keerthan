@@ -93,22 +93,22 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
       aria-modal="true"
       aria-label="Photo viewer"
       data-lenis-prevent
-      className="fixed inset-0 z-[150] flex flex-col bg-maroon-deep/95 text-ivory backdrop-blur-sm"
+      className="fixed inset-0 z-[150] flex flex-col bg-plum-deep/95 text-cream backdrop-blur-sm"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
     >
       <div className="flex shrink-0 items-center justify-between px-4 py-3 sm:px-8 sm:py-5">
-        <p className="text-sm tracking-[0.3em] text-gold" aria-live="polite" aria-atomic="true">
-          {index + 1} <span className="text-ivory/40">/</span> {total}
+        <p className="text-sm tracking-[0.3em] text-turmeric" aria-live="polite" aria-atomic="true">
+          {index + 1} <span className="text-cream/40">/</span> {total}
         </p>
         <button
           ref={closeRef}
           type="button"
           onClick={onClose}
           aria-label="Close photo viewer"
-          className="flex size-11 items-center justify-center rounded-full border border-gold/40 text-ivory transition-colors hover:bg-ivory/10"
+          className="flex size-11 items-center justify-center rounded-full border border-turmeric/40 text-cream transition-colors hover:bg-cream/10"
         >
           <X className="size-5" />
         </button>
@@ -144,7 +144,7 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
               type="button"
               onClick={() => go(-1)}
               aria-label="Previous photo"
-              className="absolute left-1 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-maroon-deep/50 backdrop-blur transition-colors hover:bg-ivory/15 sm:left-5"
+              className="absolute left-1 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-turmeric/40 bg-plum-deep/50 backdrop-blur transition-colors hover:bg-cream/15 sm:left-5"
             >
               <ChevronLeft className="size-6" />
             </button>
@@ -152,7 +152,7 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
               type="button"
               onClick={() => go(1)}
               aria-label="Next photo"
-              className="absolute right-1 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-maroon-deep/50 backdrop-blur transition-colors hover:bg-ivory/15 sm:right-5"
+              className="absolute right-1 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-turmeric/40 bg-plum-deep/50 backdrop-blur transition-colors hover:bg-cream/15 sm:right-5"
             >
               <ChevronRight className="size-6" />
             </button>
@@ -160,8 +160,8 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
         )}
       </div>
 
-      <p className="shrink-0 px-6 py-4 text-center font-display text-lg italic text-ivory/75 sm:py-6">
-        {photo.caption ?? (photo.placeholder ? "" : photo.alt)}
+      <p className="shrink-0 px-6 py-4 text-center font-display text-lg italic text-cream/75 sm:py-6">
+        {photo.placeholder ? "" : photo.alt}
       </p>
 
       {/* warm adjacent frames so navigation feels instant */}
