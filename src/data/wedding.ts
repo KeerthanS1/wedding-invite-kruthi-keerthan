@@ -28,8 +28,17 @@ export const ribbon = [
 
 export const invitation = {
   kn: "ಆಹ್ವಾನ",
-  heading: "Two Hearts, One Beautiful Journey",
-  text: "With hearts full of love and happiness, we are beginning the most beautiful chapter of our lives, and it would mean the world to us to have you with us. Please join us as we celebrate the start of our forever, and bless us with your love, your presence and your good wishes.",
+  heading: "The One Where Chai Meets Coffee ♡",
+  /** Wrap words in **double asterisks** to highlight them. */
+  story: [
+    "Some love stories begin with a confession. Ours began with **a glance at a function**, **two secret crushes**, and absolutely no first move.",
+    "Little did we know, life was saving our story for a plot twist neither of us expected – **an arranged meeting orchestrated by our parents!**",
+    "And suddenly, the familiar face from that first encounter was sitting right in front of us. Between unexpected conversations, playful chaos, and **rain that seemed to follow us everywhere**, our story slowly turned into something straight out of **a Bollywood rom-com**.",
+    "**One chai lover, one coffee lover**, two different personalities, and a love story that proves opposites can brew something beautiful. A little **Geet and Aditya** chaos, a little **Bunny and Naina** destiny, and a whole lot of us.",
+    "On **November 20th, 2026**, we're tying the knot – turning an arranged beginning into our very own love story.",
+  ],
+  blend: "Different brews, one beautiful blend.",
+  toast: "Here's to forever, one cup at a time. ☕🫖❤️",
 } as const;
 
 export const coupleIntro = {
