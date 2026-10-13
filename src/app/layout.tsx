@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Corinthia, Noto_Serif_Kannada, Poppins } from "next/font/google";
+import { DM_Serif_Display, Corinthia, Baloo_Tamma_2, Poppins } from "next/font/google";
 import { site } from "@/data/wedding";
 import "./globals.css";
 
@@ -28,11 +28,11 @@ const script = Corinthia({
   display: "swap",
 });
 
-/** Kannada text */
-const kannada = Noto_Serif_Kannada({
+/** Kannada text: rounded and playful */
+const kannada = Baloo_Tamma_2({
   variable: "--font-kannada",
   subsets: ["kannada"],
-  weight: ["400", "500", "600"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
