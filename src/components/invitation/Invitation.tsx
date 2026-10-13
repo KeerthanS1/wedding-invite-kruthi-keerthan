@@ -40,7 +40,7 @@ export function Invitation({ photos }: { photos: Photo[] }) {
     <section id="invitation" aria-labelledby="invitation-heading" className="pulli pb-14 pt-20 sm:pb-24 sm:pt-28">
       <div className="mx-auto max-w-5xl px-4 sm:px-8">
         <Reveal className="text-center">
-          <ChaiCoffee className="mx-auto w-40 sm:w-48" />
+          <ChaiCoffee />
           <p className="mt-3 text-xl font-medium text-rani sm:text-2xl">
             <Kannada>{invitation.kn}</Kannada>
           </p>
