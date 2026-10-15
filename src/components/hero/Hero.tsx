@@ -23,9 +23,27 @@ const rise: Variants = {
 const ORIGINS = ["50% 40%", "30% 60%", "70% 45%", "55% 70%"];
 
 /** Full-screen photo carousel with the names and date. */
-export function Hero({ photos }: { photos: Photo[] }) {
+/** Fisher–Yates shuffle (returns a new array). */
+function shuffle<T>(items: T[]): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
+  // A fresh random order on every visit. It is chosen in the browser after load,
+  // so the page HTML stays the same for everyone; the first photo fades in.
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  useEffect(() => {
+    // Randomness must not run during server render, so this is set once after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPhotos(shuffle(allPhotos));
+  }, [allPhotos]);
   const [tick, setTick] = useState(0); // restarts the timer after a manual dot click
 
   useEffect(() => {
@@ -44,7 +62,7 @@ export function Hero({ photos }: { photos: Photo[] }) {
       className="relative isolate flex h-svh min-h-[32rem] w-full items-end justify-center overflow-hidden bg-espresso"
     >
       <div className="absolute inset-0 -z-10">
-        <AnimatePresence initial={false}>
+        <AnimatePresence>
           {current && (
             <motion.div
               key={index}
@@ -68,7 +86,6 @@ export function Hero({ photos }: { photos: Photo[] }) {
                     <Picture
                       photo={current}
                       sizes="100vw"
-                      priority={index === 0}
                       className="landscape:scale-110 landscape:opacity-60 landscape:blur-2xl"
                     />
                     <div className="absolute inset-0 hidden landscape:block">
@@ -76,7 +93,7 @@ export function Hero({ photos }: { photos: Photo[] }) {
                     </div>
                   </>
                 ) : (
-                  <Picture photo={current} sizes="100vw" priority={index === 0} />
+                  <Picture photo={current} sizes="100vw" />
                 )}
               </motion.div>
             </motion.div>

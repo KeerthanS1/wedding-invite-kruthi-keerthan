@@ -7,7 +7,7 @@ import type { PhotoGroup, PhotoInput } from "@/types";
  *  Drop files into these folders. Each one is read in file-name order
  *  (01.jpg, 02.jpg …), so naming controls the order.
  *
- *    public/images/hero/        3–4 photos for the opening carousel
+ *    public/images/hero/        up to 8 photos for the opening carousel (shuffled per visit)
  *    public/images/invitation/  8 photos for the grid under the invitation
  *                               (any extras join the scrolling gallery)
  *    public/images/couple/      bride.jpg and groom.jpg
@@ -32,13 +32,17 @@ export const photoFolders: Record<PhotoGroup, string> = {
 };
 
 export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
-  // position = which part stays in view when a photo fills the screen;
-  // these keep faces in the upper half, clear of the names at the bottom
+  // position = which part stays in view when a photo is cropped (mostly phones).
+  // The hero shows these in a random order on every visit.
   hero: [
-    { file: "01-traditional.jpg", alt: "Kruthi in a silk saree and Keerthan in a kurta, smiling together", position: "62% 63%" },
-    { file: "02-bunny.jpg", alt: "Kruthi and Keerthan laughing while holding a white bunny", position: "50% 45%" },
+    { file: "01-running.jpg", alt: "Kruthi and Keerthan running hand in hand across a meadow", position: "55% 40%" },
+    { file: "02-stairs.jpg", alt: "Kruthi and Keerthan walking down steps on a city street", position: "46% 40%" },
     { file: "03-street.jpg", alt: "Kruthi and Keerthan leaning against a leafy street-side railing", position: "62% 45%" },
-    { file: "04-swing.jpg", alt: "Kruthi on a swing smiling down at Keerthan", position: "55% 42%" },
+    { file: "04-window.jpg", alt: "Keerthan and Kruthi forehead to forehead by a sunlit window", position: "58% 35%" },
+    { file: "05-flowers.jpg", alt: "Kruthi and Keerthan sitting close, laughing, behind a vase of flowers", position: "68% 40%" },
+    { file: "06-courtyard.jpg", alt: "Keerthan leading Kruthi by the hand through a traditional courtyard", position: "47% 40%" },
+    { file: "07-veena.jpg", alt: "Kruthi resting beside Keerthan next to a veena, rose petals falling", position: "45% 45%" },
+    { file: "08-red-car.jpg", alt: "Kruthi in a silk saree and Keerthan in a kurta by a vintage red car", position: "52% 40%" },
   ],
   invitation: [],
   gallery: [],
@@ -46,7 +50,7 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
 
 /** How many photos each spot shows */
 export const limits = {
-  hero: 4,
+  hero: 8,
   invitation: 8,
 } as const;
 
