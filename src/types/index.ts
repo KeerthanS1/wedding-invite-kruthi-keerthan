@@ -19,7 +19,10 @@ export interface Photo {
   position: string;
   /** True when this is a stand-in shown until a real photo is added */
   placeholder?: boolean;
-  /** Taller than it is wide (read from the file at build time) */
+  /** Pixel size, read from the file at build time, so frames can match the photo's shape */
+  width?: number;
+  height?: number;
+  /** Taller than it is wide */
   portrait?: boolean;
 }
 

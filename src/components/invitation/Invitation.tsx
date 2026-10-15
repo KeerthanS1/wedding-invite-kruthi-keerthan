@@ -73,16 +73,17 @@ export function Invitation({ photos }: { photos: Photo[] }) {
           </div>
         </Reveal>
 
-        {/* medium-sized photos: 4 × 2 on desktop, 2 × 4 on phones */}
-        <ul className="mx-auto mt-10 grid max-w-xs grid-cols-2 gap-2 sm:mt-14 sm:max-w-2xl sm:grid-cols-4 sm:gap-3 lg:max-w-3xl">
+        {/* medium-sized photos in a masonry layout: 4 columns on desktop, 2 on phones;
+            each frame keeps its photo's own shape */}
+        <ul className="mx-auto mt-10 max-w-xs columns-2 gap-2 sm:mt-14 sm:max-w-2xl sm:columns-4 sm:gap-3 lg:max-w-3xl">
           {photos.map((photo, i) => (
-            <li key={photo.src}>
+            <li key={photo.src} className="mb-2 break-inside-avoid sm:mb-3">
               <Reveal y={16} delay={(i % 4) * 0.08} duration={0.9}>
                 <PhotoTile
                   group={photos}
                   index={i}
                   sizes="(min-width: 640px) 190px, 160px"
-                  className="aspect-[4/5] rounded-xl transition-transform duration-500 hover:-rotate-2"
+                  className="rounded-xl transition-transform duration-500 hover:-rotate-2"
                 />
               </Reveal>
             </li>

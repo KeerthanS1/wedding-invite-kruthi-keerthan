@@ -31,6 +31,8 @@ export function PhotoTile({ group, index, sizes, className, imageClassName, prio
       aria-haspopup="dialog"
       aria-label={`View larger: ${photo.alt}`}
       className={cn("group relative block w-full cursor-zoom-in overflow-hidden bg-sand", className)}
+      // the frame takes the photo's own shape (tall or wide), so nothing is cropped
+      style={photo.width && photo.height ? { aspectRatio: `${photo.width} / ${photo.height}` } : undefined}
     >
       <Picture
         photo={photo}

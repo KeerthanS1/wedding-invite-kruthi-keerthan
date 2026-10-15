@@ -20,12 +20,17 @@ export function QuoteGallery({ photos }: { photos: Photo[] }) {
       {photos.length > 0 && (
         <Marquee duration={Math.max(30, photos.length * 6)} pauseOnHover className="mt-10 sm:mt-14">
           {photos.map((photo, i) => (
-            <div key={photo.src} className="w-[46vw] shrink-0 px-1.5 sm:w-64 sm:px-2.5">
+            <div
+              key={photo.src}
+              // fixed height, width from the photo's own shape, so tall and wide photos both fit uncropped
+              className={i % 2 ? "h-56 shrink-0 px-1.5 sm:mt-8 sm:h-72 sm:px-2.5" : "h-56 shrink-0 px-1.5 sm:h-72 sm:px-2.5"}
+              style={photo.width && photo.height ? { aspectRatio: `${photo.width} / ${photo.height}` } : { width: "14rem" }}
+            >
               <PhotoTile
                 group={photos}
                 index={i}
-                sizes="(min-width: 640px) 256px, 46vw"
-                className={i % 2 ? "aspect-[4/5] rounded-2xl sm:mt-8" : "aspect-[4/5] rounded-2xl"}
+                sizes="(min-width: 640px) 432px, 336px"
+                className="rounded-2xl"
               />
             </div>
           ))}

@@ -56,8 +56,8 @@ export const limits = {
 
 export const couplePhotos = {
   folder: "/images/couple",
-  bride: { name: "bride", alt: "Kruthi, the bride", position: "50% 30%" },
-  groom: { name: "groom", alt: "Keerthan, the groom", position: "50% 30%" },
+  bride: { name: "bride", alt: "Kruthi in a silk saree beside a veena", position: "50% 50%" },
+  groom: { name: "groom", alt: "Keerthan walking through a park at golden hour", position: "50% 50%" },
 } as const;
 
 /** Describes the photos for screen readers when no per-photo alt is given. */

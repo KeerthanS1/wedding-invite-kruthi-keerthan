@@ -42,6 +42,8 @@ function resolve(group: PhotoGroup, input: PhotoInput, index: number): Photo {
   const size = imageSize(src);
   return {
     src,
+    width: size?.width,
+    height: size?.height,
     portrait: size ? size.height > size.width : undefined,
     alt: item.alt ?? `${defaultAlt[group]} (photo ${index + 1})`,
     position: "position" in item && item.position ? item.position : "50% 50%",
@@ -59,6 +61,9 @@ function placeholders(prefix: string, count: number, alt: string): Photo[] {
     src: `/images/placeholders/${prefix}-${i + 1}.svg`,
     alt: `${alt} (placeholder ${i + 1})`,
     position: "50% 50%",
+    width: 1200,
+    height: 1500,
+    portrait: true,
     placeholder: true,
   }));
 }
@@ -66,9 +71,12 @@ function placeholders(prefix: string, count: number, alt: string): Photo[] {
 function couplePhoto(who: "bride" | "groom"): Photo {
   const spec = couplePhotos[who];
   const file = listFolder(couplePhotos.folder).find((f) => f.toLowerCase().startsWith(spec.name));
-  return file
-    ? { src: `${couplePhotos.folder}/${file}`, alt: spec.alt, position: spec.position }
-    : { src: `/images/placeholders/${who}.svg`, alt: `${spec.alt} (placeholder)`, position: "50% 50%", placeholder: true };
+  if (!file) {
+    return { src: `/images/placeholders/${who}.svg`, alt: `${spec.alt} (placeholder)`, position: "50% 50%", width: 1200, height: 1500, placeholder: true };
+  }
+  const src = `${couplePhotos.folder}/${file}`;
+  const size = imageSize(src);
+  return { src, alt: spec.alt, position: spec.position, width: size?.width, height: size?.height };
 }
 
 export interface SitePhotos {

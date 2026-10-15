@@ -12,7 +12,10 @@ function PersonCard({ person, photo, accent, delay }: { person: Person; photo: P
     <Reveal delay={delay} className="h-full">
       <article className="flex h-full flex-col items-center text-center">
         <div className="w-full max-w-[13.5rem] sm:max-w-[16rem]">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-sand">
+          <div
+            className="relative overflow-hidden rounded-[1.75rem] bg-sand"
+            style={{ aspectRatio: photo.width && photo.height ? `${photo.width} / ${photo.height}` : "4 / 5" }}
+          >
             <Picture photo={photo} sizes="(min-width: 640px) 256px, 216px" />
           </div>
         </div>
