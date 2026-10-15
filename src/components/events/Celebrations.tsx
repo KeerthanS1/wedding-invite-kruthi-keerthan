@@ -9,26 +9,26 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 const ICONS: Record<EventIcon, LucideIcon> = { sun: Sun, flame: Flame, sparkles: Sparkles, heart: Heart };
 
 const TONES: Record<WeddingEvent["tone"], { card: string; kn: string; title: string; meta: string; icon: string }> = {
-  turmeric: {
-    card: "bg-turmeric shadow-[6px_6px_0_var(--color-plum)]",
-    kn: "text-plum/80",
-    title: "text-plum",
-    meta: "text-plum/80",
-    icon: "bg-cream text-marigold",
+  honey: {
+    card: "bg-honey shadow-[6px_6px_0_var(--color-cocoa)]",
+    kn: "text-cocoa/80",
+    title: "text-cocoa",
+    meta: "text-cocoa/80",
+    icon: "bg-cream text-amber",
   },
   sand: {
-    card: "bg-cream shadow-[6px_6px_0_var(--color-marigold)] ring-1 ring-marigold/40",
-    kn: "text-rani",
-    title: "text-plum",
-    meta: "text-rani",
-    icon: "bg-marigold text-cream",
+    card: "bg-cream shadow-[6px_6px_0_var(--color-amber)] ring-1 ring-amber/40",
+    kn: "text-rust",
+    title: "text-cocoa",
+    meta: "text-rust",
+    icon: "bg-amber text-cream",
   },
-  plum: {
-    card: "bg-plum shadow-[6px_6px_0_var(--color-rani)]",
-    kn: "text-turmeric",
+  cocoa: {
+    card: "bg-cocoa shadow-[6px_6px_0_var(--color-rust)]",
+    kn: "text-honey",
     title: "text-cream",
-    meta: "text-turmeric",
-    icon: "bg-rani text-cream",
+    meta: "text-honey",
+    icon: "bg-rust text-cream",
   },
 };
 
@@ -48,7 +48,7 @@ function EventCard({ event, index }: { event: WeddingEvent; index: number }) {
           <span className={cn("flex size-11 items-center justify-center rounded-full", tone.icon)}>
             <Icon className="size-5" aria-hidden="true" />
           </span>
-          <p className={cn("mt-3 text-lg font-medium", tone.kn)}>
+          <p className={cn("mt-3 text-xl", tone.kn)}>
             <Kannada>{event.kn}</Kannada>
           </p>
           <h3 id={`event-${event.id}`} className={cn("font-display text-3xl sm:text-4xl", tone.title)}>
@@ -75,12 +75,12 @@ function VenueCard() {
       <article
         id="venue"
         aria-labelledby="venue-name"
-        className="flex flex-col items-center rounded-3xl bg-peacock px-5 py-9 text-center text-cream shadow-[6px_6px_0_var(--color-marigold)] sm:px-10 sm:py-11"
+        className="flex flex-col items-center rounded-3xl bg-clay px-5 py-9 text-center text-cream shadow-[6px_6px_0_var(--color-amber)] sm:px-10 sm:py-11"
       >
-        <span className="flex size-11 items-center justify-center rounded-full bg-cream text-peacock">
+        <span className="flex size-11 items-center justify-center rounded-full bg-cream text-clay">
           <MapPin className="size-5" aria-hidden="true" />
         </span>
-        <p className="mt-3 text-lg font-medium text-turmeric">
+        <p className="mt-3 text-xl text-honey">
           <Kannada>{venue.kn}</Kannada>
         </p>
         <h3 id="venue-name" className="text-balance font-display text-2xl sm:text-4xl">
@@ -91,7 +91,7 @@ function VenueCard() {
           href={venue.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-marigold px-7 py-3 text-sm font-bold uppercase tracking-[0.14em] text-plum shadow-lg transition-transform hover:scale-105"
+          className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-7 py-3 text-sm font-bold uppercase tracking-[0.14em] text-cocoa shadow-lg transition-transform hover:scale-105"
         >
           {venue.directionsLabel}
           <span className="sr-only"> (opens Google Maps in a new tab)</span>

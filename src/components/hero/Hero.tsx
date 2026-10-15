@@ -41,7 +41,7 @@ export function Hero({ photos }: { photos: Photo[] }) {
     <section
       id="home"
       aria-label="Welcome"
-      className="relative isolate flex h-svh min-h-[32rem] w-full items-end justify-center overflow-hidden bg-plum-deep"
+      className="relative isolate flex h-svh min-h-[32rem] w-full items-end justify-center overflow-hidden bg-espresso"
     >
       <div className="absolute inset-0 -z-10">
         <AnimatePresence initial={false}>
@@ -74,7 +74,7 @@ export function Hero({ photos }: { photos: Photo[] }) {
           </div>
         )}
 
-        <div className="absolute inset-0 bg-linear-to-b from-plum-deep/30 via-transparent to-plum-deep/85" />
+        <div className="absolute inset-0 bg-linear-to-b from-espresso/30 via-transparent to-espresso/85" />
       </div>
 
       <motion.div
@@ -83,21 +83,21 @@ export function Hero({ photos }: { photos: Photo[] }) {
         initial={reduce ? false : "hidden"}
         animate="shown"
       >
-        <h1 className="text-legible font-script font-normal leading-[1] text-[clamp(4.4rem,17vw,10.5rem)]" aria-label={couple.names}>
+        <h1 className="text-legible font-script font-normal leading-[1.05] text-[clamp(3.2rem,11vw,7.5rem)]" aria-label={couple.names}>
           <motion.span variants={rise} className="flex flex-col items-center sm:block" aria-hidden="true">
             <span>{couple.first}</span>
-            <span className="text-turmeric sm:mx-4">&amp;</span>
+            <span className="text-honey sm:mx-4">&amp;</span>
             <span>{couple.second}</span>
           </motion.span>
         </h1>
 
-        <motion.p variants={rise} className="text-legible mt-2 text-2xl font-medium text-cream sm:text-3xl">
+        <motion.p variants={rise} className="text-legible mt-2 text-3xl text-cream sm:text-4xl">
           <Kannada>{couple.kn}</Kannada>
         </motion.p>
 
         <motion.p
           variants={rise}
-          className="mt-5 rounded-full bg-rani px-5 py-2 text-xs font-bold uppercase tracking-[0.3em] text-cream shadow-lg shadow-plum-deep/40 sm:text-sm"
+          className="mt-5 rounded-full bg-rust px-5 py-2 text-xs font-bold uppercase tracking-[0.3em] text-cream shadow-lg shadow-espresso/40 sm:text-sm"
         >
           <time dateTime={weddingDate.iso}>{weddingDate.display}</time>
         </motion.p>
@@ -120,7 +120,7 @@ export function Hero({ photos }: { photos: Photo[] }) {
               <span
                 className={cn(
                   "block h-1.5 rounded-full transition-all duration-500",
-                  i === index ? "w-6 bg-turmeric" : "w-1.5 bg-cream/60",
+                  i === index ? "w-6 bg-honey" : "w-1.5 bg-cream/60",
                 )}
               />
             </button>

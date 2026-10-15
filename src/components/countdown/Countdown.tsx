@@ -11,13 +11,13 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 function Unit({ value, label, tilt }: { value: string; label: string; tilt: string }) {
   return (
-    <div className={cn("flex flex-col items-center rounded-2xl bg-cream px-1 py-4 shadow-[5px_5px_0_var(--color-plum)] sm:px-6 sm:py-7", tilt)}>
-      <div className="relative h-[1em] overflow-hidden font-display text-[clamp(1.9rem,8vw,4.5rem)] leading-none tabular-nums text-plum">
+    <div className={cn("flex flex-col items-center rounded-2xl bg-cream px-1 py-4 shadow-[5px_5px_0_var(--color-cocoa)] sm:px-6 sm:py-7", tilt)}>
+      <div className="relative h-[1em] overflow-hidden font-display text-[clamp(1.9rem,8vw,4.5rem)] leading-none tabular-nums text-cocoa">
         <span key={value} className="digit block">
           {value}
         </span>
       </div>
-      <span className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-rani sm:text-xs sm:tracking-[0.3em]">
+      <span className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-rust sm:text-xs sm:tracking-[0.3em]">
         {label}
       </span>
     </div>
@@ -39,19 +39,19 @@ export function Countdown() {
   const done = left?.done ?? false;
 
   return (
-    <section id="countdown" aria-labelledby="countdown-heading" className="bg-marigold py-14 sm:py-24">
+    <section id="countdown" aria-labelledby="countdown-heading" className="bg-amber py-14 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-8">
-        <SectionHeading id="countdown-heading" kn={countdown.kn} title={countdown.heading} divider={false} className="[&_p]:text-plum" />
+        <SectionHeading id="countdown-heading" kn={countdown.kn} title={countdown.heading} divider={false} className="[&_p]:text-cocoa" />
 
         <Reveal delay={0.2}>
-          <p className="mt-3 text-xs font-bold uppercase tracking-[0.25em] text-plum/80 sm:text-sm">
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.25em] text-cocoa/80 sm:text-sm">
             {weddingDate.display} · {weddingDate.ceremonyTimeLabel}
           </p>
         </Reveal>
 
         {done ? (
           <Reveal className="mt-8">
-            <p className="text-balance font-display text-2xl text-plum sm:text-4xl">{countdown.doneMessage}</p>
+            <p className="text-balance font-display text-2xl text-cocoa sm:text-4xl">{countdown.doneMessage}</p>
           </Reveal>
         ) : (
           <Reveal className="mt-8 sm:mt-10" delay={0.15}>

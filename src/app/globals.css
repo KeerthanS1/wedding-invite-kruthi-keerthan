@@ -1,24 +1,23 @@
 @import "tailwindcss";
 
-/* ───────── Festive palette: marigold, rani pink, peacock, plum ───────── */
+/* ───────── Warm palette: cream, amber, burnt orange, espresso ───────── */
 @theme {
-  --color-cream: #fff7ea;
-  --color-sand: #fbe9cc;
-  --color-marigold: #f4a21b;
-  --color-turmeric: #f6c443;
-  --color-rani: #d1246b;
-  --color-rani-deep: #a3164f;
-  --color-peacock: #0d6a6e;
-  --color-leaf: #3f7d3c;
-  --color-plum: #3b1846;
-  --color-plum-deep: #240d2c;
-  --color-ink: #2b1633;
+  --color-cream: #fef3e2;
+  --color-sand: #f8e3c3;
+  --color-amber: #f4ae52;
+  --color-honey: #f7c77e;
+  --color-rust: #d4621a;
+  --color-rust-deep: #a9481a;
+  --color-clay: #8a4520;
+  --color-cocoa: #4a2c18;
+  --color-espresso: #2a1a0e;
+  --color-ink: #2a1a0e;
 }
 
 @theme inline {
   --font-display: var(--font-display-face), Georgia, serif;
   --font-sans: var(--font-body-face), system-ui, sans-serif;
-  --font-script: var(--font-script-face), cursive;
+  --font-script: var(--font-script-face), Georgia, serif;
   --font-kn: var(--font-kannada), serif;
 }
 
@@ -36,12 +35,12 @@ body {
 }
 
 ::selection {
-  background: var(--color-turmeric);
-  color: var(--color-plum-deep);
+  background: var(--color-honey);
+  color: var(--color-espresso);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-rani);
+  outline: 2px solid var(--color-rust);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -66,12 +65,17 @@ html.lenis body {
 /* Kolam "pulli" dot grid: the dots a kolam is drawn around */
 .pulli {
   background-color: var(--color-cream);
-  background-image: radial-gradient(rgb(244 162 27 / 0.28) 1.3px, transparent 1.4px);
+  background-image: radial-gradient(rgb(212 98 26 / 0.16) 1.3px, transparent 1.4px);
   background-size: 22px 22px;
 }
 
+/* Hubballi ships one weight; never fake-bold it */
+[lang="kn"] {
+  font-synthesis: none;
+}
+
 .text-legible {
-  text-shadow: 0 2px 24px rgb(20 6 24 / 0.55);
+  text-shadow: 0 2px 24px rgb(42 26 14 / 0.6);
 }
 
 /* ───────── Motion ───────── */
@@ -111,8 +115,8 @@ html.lenis body {
 /* Highlighter-pen underline for key phrases */
 .highlight {
   background-color: transparent;
-  background-image: linear-gradient(transparent 58%, rgb(246 196 67 / 0.6) 58%);
-  color: var(--color-plum);
+  background-image: linear-gradient(transparent 58%, rgb(244 174 82 / 0.5) 58%);
+  color: var(--color-cocoa);
   font-weight: 500;
 }
 

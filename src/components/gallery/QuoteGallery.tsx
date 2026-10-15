@@ -9,10 +9,10 @@ export function QuoteGallery({ photos }: { photos: Photo[] }) {
   return (
     <section id="gallery" aria-labelledby="quote-text" className="overflow-hidden bg-cream py-14 sm:py-24">
       <Reveal className="mx-auto max-w-3xl px-5 text-center">
-        <p aria-hidden="true" className="font-display text-7xl leading-none text-rani">
+        <p aria-hidden="true" className="font-display text-7xl leading-none text-rust">
           &ldquo;
         </p>
-        <blockquote id="quote-text" className="-mt-4 text-balance font-display text-3xl italic leading-snug text-plum sm:text-5xl">
+        <blockquote id="quote-text" className="-mt-4 text-balance font-display text-3xl italic leading-snug text-cocoa sm:text-5xl">
           {finalQuote.text}
         </blockquote>
       </Reveal>

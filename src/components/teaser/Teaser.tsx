@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
 const controlButton =
-  "flex h-10 items-center gap-2 rounded-full bg-cream/90 px-4 text-sm font-semibold text-plum shadow-lg backdrop-blur transition-transform hover:scale-105";
+  "flex h-10 items-center gap-2 rounded-full bg-cream/90 px-4 text-sm font-semibold text-cocoa shadow-lg backdrop-blur transition-transform hover:scale-105";
 
 /**
  * The teaser film. It autoplays when it scrolls into view and pauses when it leaves,
@@ -86,12 +86,12 @@ export function Teaser() {
   };
 
   return (
-    <section id="teaser" aria-labelledby="teaser-heading" className="relative overflow-hidden bg-plum py-14 sm:py-24">
+    <section id="teaser" aria-labelledby="teaser-heading" className="relative overflow-hidden bg-cocoa py-14 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-8">
         <SectionHeading id="teaser-heading" tone="dark" kn={teaser.kn} title={`${teaser.heading} 🎬`} />
 
         <Reveal delay={0.15} className="mt-10 sm:mt-12">
-          <div className="relative overflow-hidden rounded-3xl bg-plum-deep shadow-[10px_10px_0_var(--color-marigold)] sm:shadow-[14px_14px_0_var(--color-marigold)]">
+          <div className="relative overflow-hidden rounded-3xl bg-espresso shadow-[10px_10px_0_var(--color-amber)] sm:shadow-[14px_14px_0_var(--color-amber)]">
             <video
               ref={videoRef}
               className="block aspect-video w-full cursor-pointer object-cover"
@@ -113,7 +113,7 @@ export function Teaser() {
                 type="button"
                 onClick={togglePlay}
                 aria-label="Play the teaser"
-                className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-rani text-cream shadow-xl transition-transform hover:scale-110 sm:size-20"
+                className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-rust text-cream shadow-xl transition-transform hover:scale-110 sm:size-20"
               >
                 <Play className="ml-1 size-7 fill-current sm:size-9" aria-hidden="true" />
               </button>

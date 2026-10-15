@@ -19,7 +19,7 @@ export function SectionHeading({ id, kn, title, tone = "light", divider = true, 
     <div className={cn("mx-auto max-w-3xl text-center", className)}>
       {kn && (
         <Reveal>
-          <p className={cn("mb-1 text-xl font-medium sm:text-2xl", dark ? "text-turmeric" : "text-rani")}>
+          <p className={cn("mb-1 text-2xl sm:text-3xl", dark ? "text-honey" : "text-rust")}>
             <Kannada>{kn}</Kannada>
           </p>
         </Reveal>
@@ -29,14 +29,14 @@ export function SectionHeading({ id, kn, title, tone = "light", divider = true, 
           id={id}
           className={cn(
             "text-balance font-display text-3xl leading-tight sm:text-4xl md:text-5xl",
-            dark ? "text-cream" : "text-plum",
+            dark ? "text-cream" : "text-cocoa",
           )}
         >
           {title}
         </h2>
       </Reveal>
       {divider && (
-        <Reveal delay={0.2} className={cn("mt-4", dark ? "text-turmeric" : "text-marigold")}>
+        <Reveal delay={0.2} className={cn("mt-4", dark ? "text-honey" : "text-amber")}>
           <KolamDivider size={40} />
         </Reveal>
       )}

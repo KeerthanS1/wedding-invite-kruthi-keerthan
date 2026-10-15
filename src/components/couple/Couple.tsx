@@ -6,32 +6,19 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Kannada } from "@/components/ui/Kannada";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-function PersonCard({ person, photo, accent, delay }: { person: Person; photo: Photo; accent: "rani" | "peacock"; delay: number }) {
-  const text = accent === "rani" ? "text-rani" : "text-peacock";
-  const pill = accent === "rani" ? "bg-rani" : "bg-peacock";
+function PersonCard({ person, photo, accent, delay }: { person: Person; photo: Photo; accent: "rust" | "clay"; delay: number }) {
+  const text = accent === "rust" ? "text-rust" : "text-clay";
   return (
     <Reveal delay={delay} className="h-full">
       <article className="flex h-full flex-col items-center text-center">
-        <div className="relative w-full max-w-[13.5rem] sm:max-w-[16rem]">
+        <div className="w-full max-w-[13.5rem] sm:max-w-[16rem]">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-sand">
             <Picture photo={photo} sizes="(min-width: 640px) 256px, 216px" />
           </div>
-          {/* Kannada and Latin scripts sit on different baselines, so each part is
-              its own flex box with line-height 1 and the row centres them. */}
-          <p
-            className={cn(
-              "absolute -bottom-4 left-1/2 flex h-9 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full px-4 text-sm font-semibold leading-none text-cream shadow-lg",
-              pill,
-            )}
-          >
-            <Kannada className="flex h-full items-center pt-0.5 text-[0.95rem] leading-none">{person.knRole}</Kannada>
-            <span aria-hidden="true" className="flex h-full items-center leading-none">·</span>
-            <span className="flex h-full items-center leading-none">{person.role}</span>
-          </p>
         </div>
 
-        <h3 className={cn("mt-8 font-script text-6xl leading-none sm:text-7xl", text)}>{person.name}</h3>
-        <p className={cn("mt-1 text-2xl font-semibold", text)}>
+        <h3 className={cn("mt-6 font-script text-5xl leading-none sm:text-6xl", text)}>{person.name}</h3>
+        <p className={cn("mt-1 text-3xl", text)}>
           <Kannada>{person.kn}</Kannada>
         </p>
         <p className="mt-3 max-w-xs text-pretty text-base leading-relaxed text-ink/75">{person.line}</p>
@@ -47,14 +34,14 @@ export function Couple({ bride, groom }: { bride: Photo; groom: Photo }) {
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <SectionHeading id="couple-heading" kn={coupleIntro.kn} title={coupleIntro.heading} />
         <div className="relative mt-10 grid gap-14 sm:mt-14 md:grid-cols-2 md:gap-10">
-          <PersonCard person={coupleIntro.bride} photo={bride} accent="rani" delay={0} />
+          <PersonCard person={coupleIntro.bride} photo={bride} accent="rust" delay={0} />
           <span
             aria-hidden="true"
-            className="absolute left-1/2 top-[38%] hidden size-14 -translate-x-1/2 items-center justify-center rounded-full bg-marigold font-script text-4xl text-plum shadow-lg md:flex"
+            className="absolute left-1/2 top-[38%] hidden size-14 -translate-x-1/2 items-center justify-center rounded-full bg-amber font-script text-3xl text-cocoa shadow-lg md:flex"
           >
             &amp;
           </span>
-          <PersonCard person={coupleIntro.groom} photo={groom} accent="peacock" delay={0.15} />
+          <PersonCard person={coupleIntro.groom} photo={groom} accent="clay" delay={0.15} />
         </div>
       </div>
     </section>

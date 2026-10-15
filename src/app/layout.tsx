@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Corinthia, Baloo_Tamma_2, Poppins } from "next/font/google";
+import { DM_Serif_Display, Hubballi, Montaga, Poppins } from "next/font/google";
 import { site } from "@/data/wedding";
 import "./globals.css";
 
@@ -20,19 +20,19 @@ const body = Poppins({
   display: "swap",
 });
 
-/** The couple's names in the hero */
-const script = Corinthia({
+/** The couple's names */
+const script = Montaga({
   variable: "--font-script-face",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: "400",
   display: "swap",
 });
 
-/** Kannada text: rounded and playful */
-const kannada = Baloo_Tamma_2({
+/** Kannada text: playful but readable */
+const kannada = Hubballi({
   variable: "--font-kannada",
   subsets: ["kannada"],
-  weight: ["500", "600", "700"],
+  weight: "400",
   display: "swap",
 });
 
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#3b1846",
+  themeColor: "#2a1a0e",
   width: "device-width",
   initialScale: 1,
 };

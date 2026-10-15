@@ -35,13 +35,10 @@ export interface WeddingEvent {
   time?: string;
   icon: EventIcon;
   /** Card colour */
-  tone: "turmeric" | "sand" | "plum";
+  tone: "honey" | "sand" | "cocoa";
 }
 
 export interface Person {
-  /** Kannada role, e.g. ವಧು */
-  knRole: string;
-  role: string;
   name: string;
   kn: string;
   line: string;

@@ -35,7 +35,7 @@ export function KolamDivider({ className, size = 52 }: KolamDividerProps) {
   );
 
   return (
-    <div className={cn("flex items-center justify-center gap-3 text-marigold", className)} role="presentation">
+    <div className={cn("flex items-center justify-center gap-3 text-amber", className)} role="presentation">
       {line("left")}
       <Rangoli petals={8} size={size} />
       {line("right")}

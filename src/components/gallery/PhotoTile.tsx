@@ -38,7 +38,7 @@ export function PhotoTile({ group, index, sizes, className, imageClassName, prio
         priority={priority}
         className={cn("transition-transform duration-[1600ms] ease-out group-hover:scale-[1.05]", imageClassName)}
       />
-      <span className="pointer-events-none absolute inset-0 bg-plum-deep/0 transition-colors duration-700 group-hover:bg-plum-deep/10" />
+      <span className="pointer-events-none absolute inset-0 bg-espresso/0 transition-colors duration-700 group-hover:bg-espresso/10" />
       {children}
     </button>
   );

@@ -1,7 +1,6 @@
 import { couple, site, venue, weddingDate } from "@/data/wedding";
 import { getSitePhotos } from "@/lib/photos";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
-import { Ribbon } from "@/components/layout/Ribbon";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
 import { Invitation } from "@/components/invitation/Invitation";
@@ -40,7 +39,6 @@ export default function Home() {
       <GalleryProvider>
         <main className="overflow-x-clip">
           <Hero photos={photos.hero} />
-          <Ribbon />
           <Invitation photos={photos.invitation} />
           <Couple bride={photos.bride} groom={photos.groom} />
           <Teaser />

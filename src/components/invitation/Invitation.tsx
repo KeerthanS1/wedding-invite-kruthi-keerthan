@@ -41,22 +41,22 @@ export function Invitation({ photos }: { photos: Photo[] }) {
       <div className="mx-auto max-w-5xl px-4 sm:px-8">
         <Reveal className="text-center">
           <ChaiCoffee />
-          <p className="mt-3 text-xl font-medium text-rani sm:text-2xl">
+          <p className="mt-3 text-2xl text-rust sm:text-3xl">
             <Kannada>{invitation.kn}</Kannada>
           </p>
-          <h2 id="invitation-heading" className="mt-1 text-balance font-display text-3xl leading-tight text-plum sm:text-5xl">
+          <h2 id="invitation-heading" className="mt-1 text-balance font-display text-3xl leading-tight text-cocoa sm:text-5xl">
             {invitation.heading}
           </h2>
         </Reveal>
 
         {/* the story, on a napkin-like card */}
         <Reveal delay={0.15}>
-          <div className="relative mx-auto mt-8 max-w-2xl overflow-hidden rounded-3xl bg-cream px-5 py-8 shadow-[8px_8px_0_var(--color-marigold)] ring-1 ring-marigold/30 sm:mt-10 sm:px-10 sm:py-10">
+          <div className="relative mx-auto mt-8 max-w-2xl overflow-hidden rounded-3xl bg-cream px-5 py-8 shadow-[8px_8px_0_var(--color-amber)] ring-1 ring-amber/30 sm:mt-10 sm:px-10 sm:py-10">
             <CupRing className="pointer-events-none absolute -right-8 -top-8 size-36 rotate-12" />
             <CupRing className="pointer-events-none absolute -bottom-10 -left-10 size-32 -rotate-45" />
 
             <div className="relative space-y-4 text-pretty text-[0.95rem] leading-relaxed text-ink/85 sm:text-base">
-              <p className="font-display text-xl leading-snug text-plum sm:text-2xl">
+              <p className="font-display text-xl leading-snug text-cocoa sm:text-2xl">
                 <Highlighted text={first} />
               </p>
               {rest.map((paragraph) => (
@@ -66,9 +66,9 @@ export function Invitation({ photos }: { photos: Photo[] }) {
               ))}
             </div>
 
-            <div className="relative mt-7 border-t border-dashed border-marigold/50 pt-6 text-center">
-              <p className="font-script text-5xl leading-tight text-rani sm:text-6xl">{invitation.blend}</p>
-              <p className="mt-2 text-sm font-semibold text-plum sm:text-base">{invitation.toast}</p>
+            <div className="relative mt-7 border-t border-dashed border-amber/50 pt-6 text-center">
+              <p className="font-display text-3xl italic leading-tight text-rust sm:text-4xl">{invitation.blend}</p>
+              <p className="mt-2 text-sm font-semibold text-cocoa sm:text-base">{invitation.toast}</p>
             </div>
           </div>
         </Reveal>

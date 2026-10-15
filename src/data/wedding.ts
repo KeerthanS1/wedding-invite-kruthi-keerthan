@@ -17,15 +17,6 @@ export const weddingDate = {
   ceremonyTimeLabel: "9:15 AM IST",
 } as const;
 
-/** The scrolling ribbon under the hero */
-export const ribbon = [
-  "ಕೃತಿ ❤ ಕೀರ್ತನ್",
-  "Kruthi weds Keerthan",
-  "ಮದುವೆಗೆ ಬನ್ನಿ",
-  "18 – 20 November 2026",
-  "Bengaluru",
-] as const;
-
 export const invitation = {
   kn: "ಆಹ್ವಾನ",
   heading: "The One Where Chai Meets Coffee ♡",
@@ -45,15 +36,11 @@ export const coupleIntro = {
   kn: "ವಧು · ವರ",
   heading: "Meet the Two of Us",
   bride: {
-    knRole: "ವಧು",
-    role: "The Bride",
     name: "Kruthi",
     kn: "ಕೃತಿ",
     line: "The one with the late-night lectures on how life should be lived, and usually right.",
   } satisfies Person,
   groom: {
-    knRole: "ವರ",
-    role: "The Groom",
     name: "Keerthan",
     kn: "ಕೀರ್ತನ್",
     line: "The one who drove three hours through the night because the plan did not have her in it.",
@@ -79,7 +66,7 @@ export const events: WeddingEvent[] = [
     date: "18 November 2026",
     isoDate: "2026-11-18",
     icon: "sun",
-    tone: "turmeric",
+    tone: "honey",
   },
   {
     id: "varapooje",
@@ -99,7 +86,7 @@ export const events: WeddingEvent[] = [
     isoDate: "2026-11-19",
     time: "7:00 PM onwards",
     icon: "sparkles",
-    tone: "plum",
+    tone: "cocoa",
   },
   {
     id: "muhurtham",
@@ -109,7 +96,7 @@ export const events: WeddingEvent[] = [
     isoDate: "2026-11-20",
     time: "9:15 AM",
     icon: "heart",
-    tone: "plum",
+    tone: "cocoa",
   },
 ];
 
