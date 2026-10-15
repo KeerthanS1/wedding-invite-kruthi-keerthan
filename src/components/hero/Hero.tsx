@@ -61,7 +61,23 @@ export function Hero({ photos }: { photos: Photo[] }) {
                 animate={{ scale: reduce ? 1 : 1.12 }}
                 transition={{ duration: (SLIDE_MS + 2000) / 1000, ease: "linear" }}
               >
-                <Picture photo={current} sizes="100vw" priority={index === 0} />
+                {current.portrait ? (
+                  <>
+                    {/* tall photo: full-bleed on phones; on wide screens a soft blurred
+                        fill behind the whole photo, so no faces get cropped */}
+                    <Picture
+                      photo={current}
+                      sizes="100vw"
+                      priority={index === 0}
+                      className="landscape:scale-110 landscape:opacity-60 landscape:blur-2xl"
+                    />
+                    <div className="absolute inset-0 hidden landscape:block">
+                      <Picture photo={current} sizes="100vw" fit="contain" />
+                    </div>
+                  </>
+                ) : (
+                  <Picture photo={current} sizes="100vw" priority={index === 0} />
+                )}
               </motion.div>
             </motion.div>
           )}
@@ -83,10 +99,10 @@ export function Hero({ photos }: { photos: Photo[] }) {
         initial={reduce ? false : "hidden"}
         animate="shown"
       >
-        <h1 className="text-legible font-script font-normal leading-[1.05] text-[clamp(3.2rem,11vw,7.5rem)]" aria-label={couple.names}>
-          <motion.span variants={rise} className="flex flex-col items-center sm:block" aria-hidden="true">
+        <h1 className="text-legible font-script font-normal leading-[1.05] whitespace-nowrap text-[clamp(2.4rem,10.5vw,7.5rem)]" aria-label={couple.names}>
+          <motion.span variants={rise} className="block" aria-hidden="true">
             <span>{couple.first}</span>
-            <span className="text-honey sm:mx-4">&amp;</span>
+            <span className="mx-2 text-honey sm:mx-4">&amp;</span>
             <span>{couple.second}</span>
           </motion.span>
         </h1>

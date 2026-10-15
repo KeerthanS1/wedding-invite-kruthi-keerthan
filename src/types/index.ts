@@ -19,6 +19,8 @@ export interface Photo {
   position: string;
   /** True when this is a stand-in shown until a real photo is added */
   placeholder?: boolean;
+  /** Taller than it is wide (read from the file at build time) */
+  portrait?: boolean;
 }
 
 export type EventIcon = "sun" | "flame" | "sparkles" | "heart";

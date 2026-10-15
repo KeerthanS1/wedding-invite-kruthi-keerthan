@@ -18,10 +18,31 @@ function listFolder(folder: string): string[] {
   }
 }
 
+/** Reads width/height from a JPEG or PNG header, without decoding the image. */
+function imageSize(publicPath: string): { width: number; height: number } | null {
+  try {
+    const buf = fs.readFileSync(path.join(process.cwd(), "public", publicPath));
+    if (buf.readUInt32BE(0) === 0x89504e47) return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+    if (buf[0] === 0xff && buf[1] === 0xd8) {
+      let i = 2;
+      while (i < buf.length) {
+        const marker = buf[i + 1];
+        const length = buf.readUInt16BE(i + 2);
+        if (marker >= 0xc0 && marker <= 0xc3) return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+        i += 2 + length;
+      }
+    }
+  } catch {}
+  return null;
+}
+
 function resolve(group: PhotoGroup, input: PhotoInput, index: number): Photo {
   const item = typeof input === "string" ? { file: input } : input;
+  const src = `${photoFolders[group]}/${item.file}`;
+  const size = imageSize(src);
   return {
-    src: `${photoFolders[group]}/${item.file}`,
+    src,
+    portrait: size ? size.height > size.width : undefined,
     alt: item.alt ?? `${defaultAlt[group]} (photo ${index + 1})`,
     position: "position" in item && item.position ? item.position : "50% 50%",
   };

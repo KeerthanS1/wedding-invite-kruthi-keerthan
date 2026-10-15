@@ -32,7 +32,14 @@ export const photoFolders: Record<PhotoGroup, string> = {
 };
 
 export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
-  hero: [],
+  // position = which part stays in view when a photo fills the screen;
+  // these keep faces in the upper half, clear of the names at the bottom
+  hero: [
+    { file: "01-traditional.jpg", alt: "Kruthi in a silk saree and Keerthan in a kurta, smiling together", position: "62% 63%" },
+    { file: "02-bunny.jpg", alt: "Kruthi and Keerthan laughing while holding a white bunny", position: "50% 45%" },
+    { file: "03-street.jpg", alt: "Kruthi and Keerthan leaning against a leafy street-side railing", position: "62% 45%" },
+    { file: "04-swing.jpg", alt: "Kruthi on a swing smiling down at Keerthan", position: "55% 42%" },
+  ],
   invitation: [],
   gallery: [],
 };
