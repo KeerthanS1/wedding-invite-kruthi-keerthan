@@ -9,10 +9,12 @@ interface PictureProps {
   priority?: boolean;
   className?: string;
   fit?: "cover" | "contain";
+  /** 75, 82 or 90 (see images.qualities in next.config.ts) */
+  quality?: 75 | 82 | 90;
 }
 
 /** Next/Image wrapper that fills its (relatively positioned) parent. */
-export function Picture({ photo, sizes, priority, className, fit = "cover" }: PictureProps) {
+export function Picture({ photo, sizes, priority, className, fit = "cover", quality = 82 }: PictureProps) {
   return (
     <Image
       src={photo.src}
@@ -20,7 +22,7 @@ export function Picture({ photo, sizes, priority, className, fit = "cover" }: Pi
       fill
       sizes={sizes}
       priority={priority}
-      quality={82}
+      quality={quality}
       unoptimized={photo.src.endsWith(".svg")}
       draggable={false}
       style={{ objectPosition: photo.position }}

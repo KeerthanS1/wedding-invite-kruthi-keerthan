@@ -35,14 +35,14 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
   // position = which part stays in view when a photo is cropped (mostly phones).
   // The hero shows these in a random order on every visit.
   hero: [
-    { file: "01-running.jpg", alt: "Kruthi and Keerthan running hand in hand across a meadow", position: "55% 40%" },
-    { file: "02-stairs.jpg", alt: "Kruthi and Keerthan walking down steps on a city street", position: "46% 40%" },
-    { file: "03-street.jpg", alt: "Kruthi and Keerthan leaning against a leafy street-side railing", position: "62% 45%" },
-    { file: "04-window.jpg", alt: "Keerthan and Kruthi forehead to forehead by a sunlit window", position: "58% 35%" },
-    { file: "05-flowers.jpg", alt: "Kruthi and Keerthan sitting close, laughing, behind a vase of flowers", position: "68% 40%" },
-    { file: "06-courtyard.jpg", alt: "Keerthan leading Kruthi by the hand through a traditional courtyard", position: "47% 40%" },
-    { file: "07-veena.jpg", alt: "Kruthi resting beside Keerthan next to a veena, rose petals falling", position: "45% 45%" },
-    { file: "08-red-car.jpg", alt: "Kruthi in a silk saree and Keerthan in a kurta by a vintage red car", position: "52% 40%" },
+    { file: "01-running-hd.jpg", alt: "Kruthi and Keerthan running hand in hand across a meadow", position: "55% 40%" },
+    { file: "02-stairs-hd.jpg", alt: "Kruthi and Keerthan walking down steps on a city street", position: "46% 40%" },
+    { file: "03-street-hd.jpg", alt: "Kruthi and Keerthan leaning against a leafy street-side railing", position: "62% 45%" },
+    { file: "04-window-hd.jpg", alt: "Keerthan and Kruthi forehead to forehead by a sunlit window", position: "58% 35%" },
+    { file: "05-flowers-hd.jpg", alt: "Kruthi and Keerthan sitting close, laughing, behind a vase of flowers", position: "68% 40%" },
+    { file: "06-courtyard-hd.jpg", alt: "Keerthan leading Kruthi by the hand through a traditional courtyard", position: "47% 40%" },
+    { file: "07-veena-hd.jpg", alt: "Kruthi resting beside Keerthan next to a veena, rose petals falling", position: "45% 45%" },
+    { file: "08-red-car-hd.jpg", alt: "Kruthi in a silk saree and Keerthan in a kurta by a vintage red car", position: "52% 40%" },
   ],
   invitation: [],
   gallery: [],

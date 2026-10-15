@@ -76,7 +76,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
                 className="absolute inset-0"
                 style={{ transformOrigin: ORIGINS[index % ORIGINS.length] }}
                 initial={{ scale: reduce ? 1 : 1.02 }}
-                animate={{ scale: reduce ? 1 : 1.12 }}
+                animate={{ scale: reduce ? 1 : 1.07 }}
                 transition={{ duration: (SLIDE_MS + 2000) / 1000, ease: "linear" }}
               >
                 {current.portrait ? (
@@ -93,7 +93,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
                     </div>
                   </>
                 ) : (
-                  <Picture photo={current} sizes="100vw" />
+                  <Picture photo={current} sizes="100vw" quality={90} />
                 )}
               </motion.div>
             </motion.div>
@@ -103,7 +103,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
         {/* warm the next frame so the crossfade never stalls */}
         {upcoming && (
           <div className="pointer-events-none absolute left-0 top-0 size-px overflow-hidden opacity-0">
-            <Picture photo={upcoming} sizes="100vw" />
+            <Picture photo={upcoming} sizes="100vw" quality={90} />
           </div>
         )}
 
