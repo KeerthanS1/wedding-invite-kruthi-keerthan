@@ -12,9 +12,9 @@ export const weddingDate = {
   iso: "2026-11-20",
   footer: "20 • 11 • 2026",
   /** Muhurtham, in Asia/Kolkata (IST, fixed +05:30 offset) */
-  ceremonyISO: "2026-11-20T09:15:00+05:30",
+  ceremonyISO: "2026-11-20T09:30:00+05:30",
   timeZone: "Asia/Kolkata",
-  ceremonyTimeLabel: "9:15 AM IST",
+  ceremonyTimeLabel: "9:30 AM IST",
 } as const;
 
 export const invitation = {
@@ -94,7 +94,7 @@ export const events: WeddingEvent[] = [
     kn: "ಮುಹೂರ್ತ",
     date: "20 November 2026",
     isoDate: "2026-11-20",
-    time: "9:15 AM",
+    time: "9:30 AM",
     icon: "heart",
     tone: "cocoa",
   },

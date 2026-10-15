@@ -24,7 +24,7 @@ function Unit({ value, label, tilt }: { value: string; label: string; tilt: stri
   );
 }
 
-/** Live countdown to the Muhurtham (20 Nov 2026, 9:15 AM IST). */
+/** Live countdown to the Muhurtham (20 Nov 2026, 9:30 AM IST). */
 export function Countdown() {
   const [left, setLeft] = useState<TimeLeft | null>(null);
 
