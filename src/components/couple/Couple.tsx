@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/ui/Reveal";
 import { Kannada } from "@/components/ui/Kannada";
+import { ScriptName } from "@/components/ui/ScriptName";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 function PersonCard({ person, photo, accent, delay }: { person: Person; photo: Photo; accent: "rust" | "clay"; delay: number }) {
@@ -20,7 +21,9 @@ function PersonCard({ person, photo, accent, delay }: { person: Person; photo: P
           </div>
         </div>
 
-        <h3 className={cn("mt-6 font-script text-5xl leading-none sm:text-6xl", text)}>{person.name}</h3>
+        <h3 className={cn("mt-6 font-script text-5xl leading-none sm:text-6xl", text)}>
+          <ScriptName name={person.name} />
+        </h3>
         <p className={cn("mt-1 text-3xl", text)}>
           <Kannada>{person.kn}</Kannada>
         </p>

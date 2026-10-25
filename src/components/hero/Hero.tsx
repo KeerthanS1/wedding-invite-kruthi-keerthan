@@ -7,6 +7,7 @@ import { couple, weddingDate } from "@/data/wedding";
 import { cn, EASE_OUT } from "@/lib/utils";
 import { Picture } from "@/components/ui/Picture";
 import { Kannada } from "@/components/ui/Kannada";
+import { ScriptName } from "@/components/ui/ScriptName";
 
 const SLIDE_MS = 4500;
 
@@ -118,7 +119,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
       >
         <h1 className="text-legible font-script font-normal leading-[1.05] whitespace-nowrap text-[clamp(2.4rem,10.5vw,7.5rem)]" aria-label={couple.names}>
           <motion.span variants={rise} className="block" aria-hidden="true">
-            <span>{couple.first}</span>
+            <ScriptName name={couple.first} />
             <span className="mx-2 text-honey sm:mx-4">&amp;</span>
             <span>{couple.second}</span>
           </motion.span>
