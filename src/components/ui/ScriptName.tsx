@@ -20,20 +20,27 @@ export function ScriptName({ name, className }: { name: string; className?: stri
   if (!art) return <span className={className}>{name}</span>;
 
   const height = art.ascent + art.descent;
+  const width = height * art.aspect;
   const mask = `url(${art.src}) center / 100% 100% no-repeat`;
-  const style: CSSProperties = {
+  // The outer box has no height and sits on the baseline, so the lettering never changes
+  // the line's height; the artwork hangs off it exactly as the font's own ascenders and
+  // descenders would, and the name lines up with typed names next to it.
+  const box: CSSProperties = { width: `${width}em`, height: 0, verticalAlign: "baseline" };
+  const artStyle: CSSProperties = {
+    position: "absolute",
+    left: 0,
+    bottom: `-${art.descent}em`,
+    width: `${width}em`,
     height: `${height}em`,
-    width: `${height * art.aspect}em`,
-    verticalAlign: `-${art.descent}em`,
     backgroundColor: "currentColor",
     WebkitMask: mask,
     mask,
   };
 
   return (
-    <span className={cn("inline-block", className)}>
+    <span className={cn("relative inline-block", className)} style={box}>
       <span className="sr-only">{name}</span>
-      <span aria-hidden="true" className="inline-block" style={style} />
+      <span aria-hidden="true" style={artStyle} />
     </span>
   );
 }

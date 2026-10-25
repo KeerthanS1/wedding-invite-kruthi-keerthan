@@ -21,10 +21,10 @@ function PersonCard({ person, photo, accent, delay }: { person: Person; photo: P
           </div>
         </div>
 
-        <h3 className={cn("mt-6 font-script text-5xl leading-none sm:text-6xl", text)}>
+        <h3 className={cn("mt-10 font-script text-5xl leading-none sm:text-6xl", text)}>
           <ScriptName name={person.name} />
         </h3>
-        <p className={cn("mt-1 text-3xl", text)}>
+        <p className={cn("mt-6 text-3xl", text)}>
           <Kannada>{person.kn}</Kannada>
         </p>
         <p className="mt-3 max-w-xs text-pretty text-base leading-relaxed text-ink/75">{person.line}</p>
