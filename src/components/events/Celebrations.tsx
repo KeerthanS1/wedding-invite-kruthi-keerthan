@@ -199,9 +199,6 @@ function VenueCard() {
           <span className="absolute bottom-0 left-1/2 size-10 -translate-x-1/2 translate-y-1/2 animate-ping rounded-full bg-amber/50" />
           <span className="absolute bottom-0 left-1/2 size-3 -translate-x-1/2 translate-y-1/2 rounded-full bg-amber" />
           <MapPin className="relative size-11 fill-rust text-cream drop-shadow-lg" strokeWidth={1.5} />
-          <span className="absolute -top-1 left-full ml-1 whitespace-nowrap rounded-full bg-cream px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-clay shadow-md">
-            We&apos;re here!
-          </span>
         </div>
 
         <div className="relative flex flex-col items-center px-5 pb-9 pt-52 text-center sm:max-w-[58%] sm:items-start sm:px-10 sm:py-12 sm:text-left">
