@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Hubballi, Montaga, Poppins } from "next/font/google";
+import { Akaya_Kanadaka, DM_Serif_Display, Montaga, Poppins } from "next/font/google";
 import { site } from "@/data/wedding";
+import { localFontFaces } from "@/lib/fonts";
 import "./globals.css";
 
 /** Headings */
@@ -28,8 +29,8 @@ const script = Montaga({
   display: "swap",
 });
 
-/** Kannada text: playful but readable */
-const kannada = Hubballi({
+/** Kannada text: brush-style and playful, with correct conjunct shaping */
+const kannada = Akaya_Kanadaka({
   variable: "--font-kannada",
   subsets: ["kannada"],
   weight: "400",
@@ -65,9 +66,13 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const fontFaces = localFontFaces();
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${script.variable} ${kannada.variable}`}>
-      <body>{children}</body>
+      <body>
+        {fontFaces && <style dangerouslySetInnerHTML={{ __html: fontFaces }} />}
+        {children}
+      </body>
     </html>
   );
 }

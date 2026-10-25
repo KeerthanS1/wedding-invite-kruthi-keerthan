@@ -16,8 +16,11 @@
 
 @theme inline {
   --font-display: var(--font-display-face), Georgia, serif;
+  /* section headings: Cravello when public/fonts/Cravello.* exists, else DM Serif Display */
+  --font-heading: "Cravello", var(--font-display-face), Georgia, serif;
   --font-sans: var(--font-body-face), system-ui, sans-serif;
-  --font-script: var(--font-script-face), Georgia, serif;
+  /* the couple's names: Barcelony when public/fonts/Barcelony.* exists, else Montaga */
+  --font-script: "Barcelony", var(--font-script-face), Georgia, serif;
   --font-kn: var(--font-kannada), serif;
 }
 
@@ -69,7 +72,7 @@ html.lenis body {
   background-size: 22px 22px;
 }
 
-/* Hubballi ships one weight; never fake-bold it */
+/* the Kannada font ships one weight; never fake-bold it */
 [lang="kn"] {
   font-synthesis: none;
 }
@@ -79,15 +82,6 @@ html.lenis body {
 }
 
 /* ───────── Motion ───────── */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes digit-in {
   from {
     opacity: 0;
@@ -97,15 +91,6 @@ html.lenis body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* A track holding two identical halves; sliding by -50% loops seamlessly. */
-.marquee {
-  animation: marquee var(--marquee-duration, 40s) linear infinite;
-}
-.marquee-pause:hover .marquee,
-.marquee-pause:focus-within .marquee {
-  animation-play-state: paused;
 }
 
 .digit {
@@ -120,8 +105,45 @@ html.lenis body {
   font-weight: 500;
 }
 
+/* A soft double-beat for hearts */
+@keyframes heartbeat {
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.18);
+  }
+  30% {
+    transform: scale(0.98);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+}
+.heartbeat {
+  transform-origin: center;
+  animation: heartbeat 2.4s ease-in-out infinite;
+}
+
+/* Beans and leaves drifting very slowly */
+@keyframes drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 6px -14px;
+  }
+}
+.drift {
+  animation: drift 9s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .marquee,
+  .heartbeat,
+  .drift,
   .digit {
     animation: none;
   }

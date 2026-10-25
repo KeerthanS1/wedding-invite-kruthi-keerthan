@@ -111,7 +111,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
       </div>
 
       <motion.div
-        className="relative z-10 flex flex-col items-center px-5 pb-20 text-center text-cream sm:pb-24"
+        className="relative z-10 flex flex-col items-center px-5 pb-16 text-center text-cream sm:pb-20"
         variants={container}
         initial={reduce ? false : "hidden"}
         animate="shown"
@@ -128,13 +128,17 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
           <Kannada>{couple.kn}</Kannada>
         </motion.p>
 
-        <motion.p
-          variants={rise}
-          className="mt-5 rounded-full bg-rust px-5 py-2 text-xs font-bold uppercase tracking-[0.3em] text-cream shadow-lg shadow-espresso/40 sm:text-sm"
-        >
-          <time dateTime={weddingDate.iso}>{weddingDate.display}</time>
-        </motion.p>
       </motion.div>
+
+      {/* the date, quietly, in the top-right corner */}
+      <motion.p
+        initial={reduce ? false : { opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.2, ease: EASE_OUT }}
+        className="text-legible absolute right-4 top-4 z-10 rounded-full border border-cream/40 bg-espresso/25 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-cream backdrop-blur-sm sm:right-6 sm:top-6 sm:text-xs"
+      >
+        <time dateTime={weddingDate.iso}>{weddingDate.display}</time>
+      </motion.p>
 
       {photos.length > 1 && (
         <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center gap-2.5">

@@ -1,10 +1,10 @@
 import type { Photo } from "@/types";
 import { finalQuote } from "@/data/wedding";
 import { Reveal } from "@/components/ui/Reveal";
-import { Marquee } from "@/components/ui/Marquee";
+import { AutoScroller } from "@/components/ui/AutoScroller";
 import { PhotoTile } from "./PhotoTile";
 
-/** The closing line, then every remaining photo drifting past. Tap one to see it large. */
+/** The closing line, then every remaining photo drifting past. Guests can also swipe or drag it, and tap a photo to see it large. */
 export function QuoteGallery({ photos }: { photos: Photo[] }) {
   return (
     <section id="gallery" aria-labelledby="quote-text" className="overflow-hidden bg-cream py-14 sm:py-24">
@@ -18,7 +18,7 @@ export function QuoteGallery({ photos }: { photos: Photo[] }) {
       </Reveal>
 
       {photos.length > 0 && (
-        <Marquee duration={Math.max(30, photos.length * 6)} pauseOnHover className="mt-10 sm:mt-14">
+        <AutoScroller label="More photographs of Kruthi and Keerthan" className="mt-10 sm:mt-14">
           {photos.map((photo, i) => (
             <div
               key={photo.src}
@@ -34,7 +34,7 @@ export function QuoteGallery({ photos }: { photos: Photo[] }) {
               />
             </div>
           ))}
-        </Marquee>
+        </AutoScroller>
       )}
     </section>
   );

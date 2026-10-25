@@ -28,7 +28,7 @@ export function SectionHeading({ id, kn, title, tone = "light", divider = true, 
         <h2
           id={id}
           className={cn(
-            "text-balance font-display text-3xl leading-tight sm:text-4xl md:text-5xl",
+            "text-balance font-heading text-3xl leading-tight sm:text-4xl md:text-5xl",
             dark ? "text-cream" : "text-cocoa",
           )}
         >
