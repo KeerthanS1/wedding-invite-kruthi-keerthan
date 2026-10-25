@@ -38,6 +38,8 @@ export interface WeddingEvent {
   /** Machine readable, e.g. "2026-11-18" */
   isoDate: string;
   time?: string;
+  /** Where it happens, when it is not at the main venue */
+  place?: { en: string; kn: string };
   icon: EventIcon;
   /** Card colour */
   tone: "honey" | "sand" | "cocoa";

@@ -19,8 +19,8 @@
   /* section headings: Cravello when public/fonts/Cravello.* exists, else DM Serif Display */
   --font-heading: "Cravello", var(--font-display-face), Georgia, serif;
   --font-sans: var(--font-body-face), system-ui, sans-serif;
-  /* the couple's names: Barcelony when public/fonts/Barcelony.* exists, else Montaga */
-  --font-script: "Barcelony", var(--font-script-face), Georgia, serif;
+  /* the couple's names: Brittany Signature when public/fonts/BrittanySignature.* exists, else Montaga */
+  --font-script: "Brittany Signature", var(--font-script-face), Georgia, serif;
   --font-kn: var(--font-kannada), serif;
 }
 

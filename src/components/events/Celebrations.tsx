@@ -1,4 +1,4 @@
-import { Flame, Heart, MapPin, Sparkles, Sun, type LucideIcon } from "lucide-react";
+import { Flame, Heart, House, MapPin, Sparkles, Sun, type LucideIcon } from "lucide-react";
 import type { EventIcon, WeddingEvent } from "@/types";
 import { celebrations, events, venue } from "@/data/wedding";
 import { cn } from "@/lib/utils";
@@ -64,6 +64,19 @@ function TimelineEvent({ event, alignRight }: { event: WeddingEvent; alignRight:
           </h4>
           {event.time && (
             <p className={cn("mt-1 text-xs font-bold uppercase tracking-[0.16em] sm:text-sm", tone.meta)}>{event.time}</p>
+          )}
+          {event.place && (
+            <p
+              className={cn(
+                "mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-cream/70 px-2.5 py-0.5 text-xs font-semibold text-cocoa",
+                alignRight && "md:flex-row-reverse",
+              )}
+            >
+              <House className="size-3.5" aria-hidden="true" />
+              <span>{event.place.en}</span>
+              <span aria-hidden="true">·</span>
+              <Kannada className="text-sm">{event.place.kn}</Kannada>
+            </p>
           )}
         </div>
       </article>
@@ -154,33 +167,63 @@ function Timeline() {
   );
 }
 
+/**
+ * The venue, over an outline of the real streets around it (drawn from OpenStreetMap,
+ * see public/images/venue-map.svg). The map is placed so the mantapa sits right under the pin:
+ * top-centre on phones, right of the text on wider screens.
+ */
 function VenueCard() {
   return (
     <Reveal className="mt-12 sm:mt-14">
       <article
         id="venue"
         aria-labelledby="venue-name"
-        className="flex flex-col items-center rounded-3xl bg-clay px-5 py-9 text-center text-cream shadow-[6px_6px_0_var(--color-amber)] sm:px-10 sm:py-11"
+        className="relative isolate overflow-hidden rounded-3xl bg-clay text-cream shadow-[6px_6px_0_var(--color-amber)]"
       >
-        <span className="flex size-11 items-center justify-center rounded-full bg-cream text-clay">
-          <MapPin className="size-5" aria-hidden="true" />
-        </span>
-        <p className="mt-3 text-xl text-honey">
-          <Kannada>{venue.kn}</Kannada>
-        </p>
-        <h3 id="venue-name" className="text-balance font-display text-2xl sm:text-4xl">
-          {venue.name}
-        </h3>
-        <address className="mt-2 max-w-md text-pretty text-sm not-italic leading-relaxed text-cream/80">{venue.address}</address>
-        <a
-          href={venue.mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-7 py-3 text-sm font-bold uppercase tracking-[0.14em] text-cocoa shadow-lg transition-transform hover:scale-105"
+        {/* outline street map, centred on the venue (1300 m across) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-28 -z-10 size-[56rem] -translate-x-1/2 -translate-y-1/2 sm:left-[76%] sm:top-1/2 sm:size-[81rem]"
         >
-          {venue.directionsLabel}
-          <span className="sr-only"> (opens Google Maps in a new tab)</span>
-        </a>
+          {/* eslint-disable-next-line @next/next/no-img-element -- a tiny static SVG, no optimisation needed */}
+          <img src="/images/venue-map.svg" alt="" className="size-full" />
+        </div>
+        {/* soften the map where the text sits */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-transparent via-clay/70 to-clay sm:bg-linear-to-r sm:from-clay sm:via-clay/85 sm:to-transparent"
+        />
+
+        {/* the pin, exactly on the mantapa */}
+        <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-28 -translate-x-1/2 -translate-y-full sm:left-[76%] sm:top-1/2">
+          <span className="absolute bottom-0 left-1/2 size-10 -translate-x-1/2 translate-y-1/2 animate-ping rounded-full bg-amber/50" />
+          <span className="absolute bottom-0 left-1/2 size-3 -translate-x-1/2 translate-y-1/2 rounded-full bg-amber" />
+          <MapPin className="relative size-11 fill-rust text-cream drop-shadow-lg" strokeWidth={1.5} />
+          <span className="absolute -top-1 left-full ml-1 whitespace-nowrap rounded-full bg-cream px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-clay shadow-md">
+            We&apos;re here!
+          </span>
+        </div>
+
+        <div className="relative flex flex-col items-center px-5 pb-9 pt-52 text-center sm:max-w-[58%] sm:items-start sm:px-10 sm:py-12 sm:text-left">
+          <p className="text-xl text-honey">
+            <Kannada>{venue.kn}</Kannada>
+          </p>
+          <h3 id="venue-name" className="text-balance font-display text-2xl sm:text-4xl">
+            {venue.name}
+          </h3>
+          <address className="mt-2 max-w-md text-pretty text-sm not-italic leading-relaxed text-cream/80">{venue.address}</address>
+          <a
+            href={venue.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-7 py-3 text-sm font-bold uppercase tracking-[0.14em] text-cocoa shadow-lg transition-transform hover:scale-105"
+          >
+            {venue.directionsLabel}
+            <span className="sr-only"> (opens Google Maps in a new tab)</span>
+          </a>
+        </div>
+
+        <p className="absolute bottom-1.5 right-3 text-[0.55rem] text-cream/45">Map data © OpenStreetMap contributors</p>
       </article>
     </Reveal>
   );

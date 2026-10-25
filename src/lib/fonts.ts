@@ -7,7 +7,7 @@ import path from "node:path";
  * automatically on the next build; until then the fallback font is shown.
  */
 const LOCAL_FONTS = [
-  { family: "Barcelony", base: "Barcelony" }, // the couple's names
+  { family: "Brittany Signature", base: "BrittanySignature" }, // the couple's names
   { family: "Cravello", base: "Cravello" }, // section headings
 ];
 

@@ -88,6 +88,7 @@ export const events: WeddingEvent[] = [
     kn: "ಅರಿಶಿನ ಶಾಸ್ತ್ರ",
     date: "18 November 2026",
     isoDate: "2026-11-18",
+    place: { en: "At home", kn: "ಮನೆಯಲ್ಲಿ" },
     icon: "sun",
     tone: "honey",
   },
