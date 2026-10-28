@@ -10,7 +10,7 @@ import type { PhotoGroup, PhotoInput } from "@/types";
  *    public/images/hero/        photos for the opening carousel on laptops/desktops (wide photos)
  *    public/images/hero-mobile/ photos for the opening carousel on phones (tall photos)
  *                               (both carousels play in file-name order)
- *    public/images/invitation/  11 photos under the invitation, in file-name order
+ *    public/images/invitation/  10 photos under the invitation, in file-name order
  *                               (any extras join the scrolling gallery)
  *    public/images/couple/      bride.jpg and groom.jpg
  *    public/images/gallery/     everything else, for the scrolling gallery
@@ -52,7 +52,7 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
 export const limits = {
   hero: 4,
   heroMobile: 7,
-  invitation: 11,
+  invitation: 10,
 } as const;
 
 export const couplePhotos = {
