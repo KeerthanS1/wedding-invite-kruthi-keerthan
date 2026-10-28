@@ -115,7 +115,7 @@ html.lenis body {
   inset: 0;
   display: none;
   opacity: 0;
-  transition: opacity 1.4s ease-in-out;
+  transition: opacity 0.9s ease-in-out;
 }
 .hero-slide.is-next {
   display: block;
@@ -150,7 +150,7 @@ html.lenis body {
 }
 .is-active .hero-zoom,
 .is-prev .hero-zoom {
-  animation: kenburns 6.5s linear forwards;
+  animation: kenburns 3s linear forwards;
 }
 
 /* Phones: a gentle bob on the "scroll down" chevrons */

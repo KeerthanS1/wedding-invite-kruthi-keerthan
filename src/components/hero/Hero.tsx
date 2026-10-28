@@ -8,7 +8,7 @@ import { cn, EASE_OUT } from "@/lib/utils";
 import { Kannada } from "@/components/ui/Kannada";
 import { ScriptName } from "@/components/ui/ScriptName";
 
-const SLIDE_MS = 4500;
+const SLIDE_MS = 2000;
 
 const container: Variants = {
   hidden: {},
