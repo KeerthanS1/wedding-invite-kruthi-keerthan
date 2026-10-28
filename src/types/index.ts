@@ -1,5 +1,5 @@
 /** Folders of photographs, one per part of the page. */
-export type PhotoGroup = "hero" | "invitation" | "gallery";
+export type PhotoGroup = "hero" | "heroMobile" | "invitation" | "gallery";
 
 /** What you write in `src/data/photos.ts` – a file name, or a file name with extras. */
 export type PhotoInput =
@@ -24,6 +24,8 @@ export interface Photo {
   height?: number;
   /** Taller than it is wide */
   portrait?: boolean;
+  /** A tiny blurred preview (data URL) shown instantly while the full photo loads */
+  blur?: string;
 }
 
 export type EventIcon = "sun" | "flame" | "sparkles" | "heart";

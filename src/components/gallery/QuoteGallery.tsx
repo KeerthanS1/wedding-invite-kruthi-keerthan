@@ -29,7 +29,8 @@ export function QuoteGallery({ photos }: { photos: Photo[] }) {
               <PhotoTile
                 group={photos}
                 index={i}
-                sizes="(min-width: 640px) 432px, 336px"
+                // only as many pixels as the tile shows: tall photos are narrow, wide ones broad
+                sizes={photo.portrait ? "(min-width: 640px) 192px, 150px" : "(min-width: 640px) 432px, 336px"}
                 className="rounded-2xl"
               />
             </div>

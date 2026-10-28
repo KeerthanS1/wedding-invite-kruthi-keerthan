@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 import { couplePhotos, defaultAlt, limits, photoConfig, photoFolders } from "@/data/photos";
 import type { Photo, PhotoGroup, PhotoInput } from "@/types";
 
@@ -36,7 +37,28 @@ function imageSize(publicPath: string): { width: number; height: number } | null
   return null;
 }
 
-function resolve(group: PhotoGroup, input: PhotoInput, index: number): Photo {
+/**
+ * A tiny (~16 px) blurred WebP of the photo as a data URL, roughly 200–400 bytes.
+ * It is inlined into the page so every photo shows its colours instantly and
+ * then sharpens as the full image arrives. Generated once per build.
+ */
+const blurCache = new Map<string, Promise<string | undefined>>();
+function blurFor(publicPath: string): Promise<string | undefined> {
+  let pending = blurCache.get(publicPath);
+  if (!pending) {
+    pending = sharp(path.join(process.cwd(), "public", publicPath))
+      .rotate()
+      .resize(16, 16, { fit: "inside" })
+      .webp({ quality: 40 })
+      .toBuffer()
+      .then((buf) => `data:image/webp;base64,${buf.toString("base64")}`)
+      .catch(() => undefined);
+    blurCache.set(publicPath, pending);
+  }
+  return pending;
+}
+
+async function resolve(group: PhotoGroup, input: PhotoInput, index: number): Promise<Photo> {
   const item = typeof input === "string" ? { file: input } : input;
   const src = `${photoFolders[group]}/${item.file}`;
   const size = imageSize(src);
@@ -47,13 +69,14 @@ function resolve(group: PhotoGroup, input: PhotoInput, index: number): Photo {
     portrait: size ? size.height > size.width : undefined,
     alt: item.alt ?? `${defaultAlt[group]} (photo ${index + 1})`,
     position: "position" in item && item.position ? item.position : "50% 50%",
+    blur: await blurFor(src),
   };
 }
 
-function realPhotos(group: PhotoGroup): Photo[] {
+function realPhotos(group: PhotoGroup): Promise<Photo[]> {
   const configured = photoConfig[group];
   const inputs = configured.length > 0 ? configured : listFolder(photoFolders[group]);
-  return inputs.map((input, i) => resolve(group, input, i));
+  return Promise.all(inputs.map((input, i) => resolve(group, input, i)));
 }
 
 function placeholders(prefix: string, count: number, alt: string): Photo[] {
@@ -68,7 +91,7 @@ function placeholders(prefix: string, count: number, alt: string): Photo[] {
   }));
 }
 
-function couplePhoto(who: "bride" | "groom"): Photo {
+async function couplePhoto(who: "bride" | "groom"): Promise<Photo> {
   const spec = couplePhotos[who];
   const file = listFolder(couplePhotos.folder).find((f) => f.toLowerCase().startsWith(spec.name));
   if (!file) {
@@ -76,11 +99,13 @@ function couplePhoto(who: "bride" | "groom"): Photo {
   }
   const src = `${couplePhotos.folder}/${file}`;
   const size = imageSize(src);
-  return { src, alt: spec.alt, position: spec.position, width: size?.width, height: size?.height };
+  return { src, alt: spec.alt, position: spec.position, width: size?.width, height: size?.height, blur: await blurFor(src) };
 }
 
 export interface SitePhotos {
   hero: Photo[];
+  /** Phone-only hero set (tall photos); falls back to `hero` when the folder is empty */
+  heroMobile: Photo[];
   invitation: Photo[];
   bride: Photo;
   groom: Photo;
@@ -88,18 +113,25 @@ export interface SitePhotos {
   gallery: Photo[];
 }
 
-export function getSitePhotos(): SitePhotos {
-  const hero = realPhotos("hero");
-  const invitationAll = realPhotos("invitation");
-  const gallery = realPhotos("gallery");
+export async function getSitePhotos(): Promise<SitePhotos> {
+  const [hero, heroMobile, invitationAll, gallery, bride, groom] = await Promise.all([
+    realPhotos("hero"),
+    realPhotos("heroMobile"),
+    realPhotos("invitation"),
+    realPhotos("gallery"),
+    couplePhoto("bride"),
+    couplePhoto("groom"),
+  ]);
+  const heroSet = hero.length ? hero.slice(0, limits.hero) : placeholders("hero", limits.hero, defaultAlt.hero);
 
   return {
-    hero: hero.length ? hero.slice(0, limits.hero) : placeholders("hero", limits.hero, defaultAlt.hero),
+    hero: heroSet,
+    heroMobile: heroMobile.length ? heroMobile.slice(0, limits.heroMobile) : heroSet,
     invitation: invitationAll.length
       ? invitationAll.slice(0, limits.invitation)
-      : placeholders("invitation", limits.invitation, defaultAlt.invitation),
-    bride: couplePhoto("bride"),
-    groom: couplePhoto("groom"),
+      : placeholders("invitation", 8, defaultAlt.invitation),
+    bride,
+    groom,
     gallery:
       invitationAll.length > limits.invitation || gallery.length
         ? [...invitationAll.slice(limits.invitation), ...gallery]

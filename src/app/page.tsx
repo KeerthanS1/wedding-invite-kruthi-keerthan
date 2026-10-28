@@ -4,6 +4,7 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
 import { ScrollCue } from "@/components/hero/ScrollCue";
+import { PickFirstPhoto } from "@/components/hero/PickFirstPhoto";
 import { Invitation } from "@/components/invitation/Invitation";
 import { Couple } from "@/components/couple/Couple";
 import { Teaser } from "@/components/teaser/Teaser";
@@ -27,8 +28,8 @@ const structuredData = {
   },
 };
 
-export default function Home() {
-  const photos = getSitePhotos();
+export default async function Home() {
+  const photos = await getSitePhotos();
 
   return (
     <>
@@ -39,7 +40,8 @@ export default function Home() {
       <SmoothScroll />
       <GalleryProvider>
         <main className="overflow-x-clip">
-          <Hero photos={photos.hero} />
+          <Hero photos={photos.hero} mobilePhotos={photos.heroMobile} />
+          <PickFirstPhoto />
           <ScrollCue />
           <Invitation photos={photos.invitation} />
           <Couple bride={photos.bride} groom={photos.groom} />

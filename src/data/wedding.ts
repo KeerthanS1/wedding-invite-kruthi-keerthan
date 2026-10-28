@@ -61,12 +61,12 @@ export const coupleIntro = {
   bride: {
     name: "Kruthi",
     kn: "ಕೃತಿ",
-    line: "The CEO of every room she walks into – boss at work, boss at home, and now, officially, the boss of his heart.",
+    line: "The one with a thousand thoughts, a little drama, and a heart that always knows what it wants.",
   } satisfies Person,
   groom: {
     name: "Keerthan",
     kn: "ಕೀರ್ತನ್",
-    line: "The calm to her storm and the king of surprise plans, who just happily signed up for a lifetime of 'Yes, boss!'",
+    line: "The one who plays it cool, plans the unexpected, and somehow always ends up doing things her way.",
   } satisfies Person,
 } as const;
 

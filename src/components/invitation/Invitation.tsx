@@ -4,7 +4,7 @@ import { invitation, photographer } from "@/data/wedding";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/ui/Reveal";
 import { Kannada } from "@/components/ui/Kannada";
-import { PhotoTile } from "@/components/gallery/PhotoTile";
+import { JustifiedRows } from "@/components/gallery/JustifiedRows";
 import { ChaiCoffee } from "./ChaiCoffee";
 
 /** Turns "plain **highlighted** plain" into text with highlighter marks. */
@@ -154,22 +154,9 @@ export function Invitation({ photos }: { photos: Photo[] }) {
           </div>
         </Reveal>
 
-        {/* medium-sized photos in a masonry layout: 4 columns on desktop, 2 on phones;
-            each frame keeps its photo's own shape */}
-        <ul className="mx-auto mt-12 max-w-xs columns-2 gap-2 sm:mt-16 sm:max-w-2xl sm:columns-4 sm:gap-3 lg:max-w-3xl">
-          {photos.map((photo, i) => (
-            <li key={photo.src} className="mb-2 break-inside-avoid sm:mb-3">
-              <Reveal y={16} delay={(i % 4) * 0.08} duration={0.9}>
-                <PhotoTile
-                  group={photos}
-                  index={i}
-                  sizes="(min-width: 640px) 190px, 160px"
-                  className="rounded-xl shadow-md shadow-cocoa/10 transition-transform duration-500 hover:-translate-y-1 hover:-rotate-1"
-                />
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        {/* medium-sized photos in justified rows: tall and wide photos side by side,
+            every row full-width, nothing cropped */}
+        <JustifiedRows photos={photos} className="mx-auto mt-12 max-w-sm sm:mt-16 md:max-w-3xl" />
 
         {/* a quiet credit to the photographer */}
         <Reveal className="mt-6 text-center">

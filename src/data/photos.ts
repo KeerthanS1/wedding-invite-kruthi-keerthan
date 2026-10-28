@@ -7,8 +7,10 @@ import type { PhotoGroup, PhotoInput } from "@/types";
  *  Drop files into these folders. Each one is read in file-name order
  *  (01.jpg, 02.jpg …), so naming controls the order.
  *
- *    public/images/hero/        4 photos for the opening carousel (shuffled per visit)
- *    public/images/invitation/  8 photos for the grid under the invitation
+ *    public/images/hero/        photos for the opening carousel on laptops/desktops (wide photos)
+ *    public/images/hero-mobile/ photos for the opening carousel on phones (tall photos)
+ *                               (both carousels start on a random photo on every visit)
+ *    public/images/invitation/  10 photos under the invitation, in file-name order
  *                               (any extras join the scrolling gallery)
  *    public/images/couple/      bride.jpg and groom.jpg
  *    public/images/gallery/     everything else, for the scrolling gallery
@@ -27,6 +29,7 @@ import type { PhotoGroup, PhotoInput } from "@/types";
 
 export const photoFolders: Record<PhotoGroup, string> = {
   hero: "/images/hero",
+  heroMobile: "/images/hero-mobile",
   invitation: "/images/invitation",
   gallery: "/images/gallery",
 };
@@ -40,6 +43,7 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
     { file: "03-stairs-hd.jpg", alt: "Kruthi and Keerthan walking down steps on a city street", position: "46% 40%" },
     { file: "04-meadow-hd.jpg", alt: "Kruthi and Keerthan running hand in hand across a meadow", position: "58% 45%" },
   ],
+  heroMobile: [],
   invitation: [],
   gallery: [],
 };
@@ -47,7 +51,8 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
 /** How many photos each spot shows */
 export const limits = {
   hero: 4,
-  invitation: 8,
+  heroMobile: 6,
+  invitation: 10,
 } as const;
 
 export const couplePhotos = {
@@ -59,6 +64,7 @@ export const couplePhotos = {
 /** Describes the photos for screen readers when no per-photo alt is given. */
 export const defaultAlt: Record<PhotoGroup, string> = {
   hero: "Kruthi and Keerthan",
+  heroMobile: "Kruthi and Keerthan",
   invitation: "Kruthi and Keerthan together",
   gallery: "A moment with Kruthi and Keerthan",
 };

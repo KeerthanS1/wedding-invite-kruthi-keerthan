@@ -24,6 +24,8 @@ export function Picture({ photo, sizes, priority, className, fit = "cover", qual
       priority={priority}
       quality={quality}
       unoptimized={photo.src.endsWith(".svg")}
+      placeholder={photo.blur ? "blur" : "empty"}
+      blurDataURL={photo.blur}
       draggable={false}
       style={{ objectPosition: photo.position }}
       className={cn(fit === "cover" ? "object-cover" : "object-contain", className)}

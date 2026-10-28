@@ -105,6 +105,54 @@ html.lenis body {
   font-weight: 500;
 }
 
+/* ───────── Hero carousel ─────────
+   Only the current, previous and next slides are displayed; the rest are display:none,
+   so their (lazy) images are not downloaded until they are about to be shown.
+   The new slide fades in on top of the previous one, which stays fully visible
+   underneath so there is never a dip to black. */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+}
+.hero-slide.is-next {
+  display: block;
+  z-index: 0;
+}
+.hero-slide.is-prev {
+  display: block;
+  z-index: 1;
+  opacity: 1;
+}
+.hero-slide.is-active {
+  display: block;
+  z-index: 2;
+  opacity: 1;
+}
+@starting-style {
+  .hero-slide.is-active {
+    opacity: 0;
+  }
+}
+.hero-bg {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+.is-active .hero-zoom,
+.is-prev .hero-zoom {
+  animation: kenburns 6.5s linear forwards;
+}
+
 /* Phones: a gentle bob on the "scroll down" chevrons */
 @keyframes scroll-cue {
   0%,
@@ -158,6 +206,7 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-zoom,
   .scroll-cue,
   .heartbeat,
   .drift,

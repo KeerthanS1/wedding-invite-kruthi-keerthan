@@ -3,8 +3,10 @@
 Drop images (jpg / jpeg / png / webp / avif) into these folders. Files are used in
 name order, so call them 01.jpg, 02.jpg …
 
-- `hero/`        3–4 photos for the opening carousel
-- `invitation/`  8 photos for the grid under the invitation (extras join the gallery)
+- `hero/`        wide photos for the opening carousel on laptops/desktops
+- `hero-mobile/` tall photos for the opening carousel on phones
+- `invitation/`  10 photos under the invitation, shown in file-name order in full-width rows
+                 (extras join the gallery)
 - `couple/`      `bride.jpg` and `groom.jpg`
 - `gallery/`     everything else, for the scrolling gallery under the quote
 

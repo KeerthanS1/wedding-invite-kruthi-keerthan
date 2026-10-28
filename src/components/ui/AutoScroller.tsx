@@ -54,22 +54,30 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
       resumeAt = performance.now() + RESUME_MS;
     };
 
-    const wrap = () => {
+    // The two halves are identical, so any position p looks exactly like p ± one loop.
+    // We keep the position between 0.5 and 1.5 loops, which leaves half a loop of room to
+    // swipe in either direction. Re-centring only ever happens while the row is drifting on
+    // its own (never mid-swipe), so a finger's momentum scroll is never interrupted.
+    const recentre = () => {
       const loop = halfEl.offsetWidth;
       if (loop <= 0) return;
-      if (row.scrollLeft >= loop) row.scrollLeft -= loop;
-      else if (row.scrollLeft <= 0) row.scrollLeft += loop;
+      if (pos >= loop * 1.5) pos -= loop;
+      else if (pos < loop * 0.5) pos += loop;
     };
+    const startInMiddle = () => {
+      pos = halfEl.offsetWidth * 0.5;
+      row.scrollLeft = pos;
+    };
+    startInMiddle();
 
     const tick = (time: number) => {
       const dt = last ? Math.min(time - last, 64) : 0;
       last = time;
       const idle = visible && !hovering && !pressing && time > resumeAt;
-      if (idle && !reduce) {
-        pos += (speed * dt) / 1000;
-        const loop = halfEl.offsetWidth;
-        if (loop > 0 && pos >= loop) pos -= loop;
-        row.scrollLeft = pos;
+      if (idle) {
+        if (!reduce) pos += (speed * dt) / 1000;
+        recentre();
+        if (Math.abs(row.scrollLeft - pos) > 0.5) row.scrollLeft = pos;
       } else {
         pos = row.scrollLeft;
       }
@@ -82,10 +90,7 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) pauseForUser(); // sideways trackpad swipe
     };
     const onScroll = () => {
-      if (performance.now() <= resumeAt || pressing) {
-        wrap();
-        pos = row.scrollLeft;
-      }
+      if (performance.now() <= resumeAt || pressing) pos = row.scrollLeft;
     };
 
     // Mouse drag to scroll (touch and trackpads scroll natively).
@@ -102,7 +107,6 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
         const dx = ev.clientX - startX;
         if (Math.abs(dx) > 5) dragMoved.current = true;
         row.scrollLeft = startLeft - dx;
-        wrap();
         pos = row.scrollLeft;
       };
       const onUp = () => {
@@ -138,6 +142,7 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
     row.addEventListener("pointerdown", onPointerDown);
     row.addEventListener("touchstart", onTouchStart, { passive: true });
     row.addEventListener("touchend", onTouchEnd, { passive: true });
+    row.addEventListener("touchcancel", onTouchEnd, { passive: true });
     row.addEventListener("pointerenter", onEnter);
     row.addEventListener("pointerleave", onLeave);
     frame = requestAnimationFrame(tick);
@@ -150,6 +155,7 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
       row.removeEventListener("pointerdown", onPointerDown);
       row.removeEventListener("touchstart", onTouchStart);
       row.removeEventListener("touchend", onTouchEnd);
+      row.removeEventListener("touchcancel", onTouchEnd);
       row.removeEventListener("pointerenter", onEnter);
       row.removeEventListener("pointerleave", onLeave);
     };
