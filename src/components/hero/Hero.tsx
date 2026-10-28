@@ -60,7 +60,7 @@ export function Hero({ photos: allPhotos }: { photos: Photo[] }) {
     <section
       id="home"
       aria-label="Welcome"
-      className="relative isolate flex h-svh min-h-[32rem] w-full items-end justify-center overflow-hidden bg-espresso"
+      className="relative isolate flex h-[86svh] min-h-[30rem] w-full md:h-svh md:min-h-[32rem] items-end justify-center overflow-hidden bg-espresso"
     >
       <div className="absolute inset-0 -z-10">
         <AnimatePresence>

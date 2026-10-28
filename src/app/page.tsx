@@ -3,6 +3,7 @@ import { getSitePhotos } from "@/lib/photos";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
+import { ScrollCue } from "@/components/hero/ScrollCue";
 import { Invitation } from "@/components/invitation/Invitation";
 import { Couple } from "@/components/couple/Couple";
 import { Teaser } from "@/components/teaser/Teaser";
@@ -39,6 +40,7 @@ export default function Home() {
       <GalleryProvider>
         <main className="overflow-x-clip">
           <Hero photos={photos.hero} />
+          <ScrollCue />
           <Invitation photos={photos.invitation} />
           <Couple bride={photos.bride} groom={photos.groom} />
           <Teaser />

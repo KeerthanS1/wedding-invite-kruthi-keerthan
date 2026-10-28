@@ -87,7 +87,7 @@ export function Invitation({ photos }: { photos: Photo[] }) {
     <section
       id="invitation"
       aria-labelledby="invitation-heading"
-      className="relative overflow-hidden bg-cream pb-14 pt-20 sm:pb-24 sm:pt-28"
+      className="relative overflow-hidden bg-cream pb-14 pt-10 sm:pb-24 sm:pt-28"
     >
       {/* warm glows, faint kolam dots and drifting beans */}
       <div aria-hidden="true" className="pulli pointer-events-none absolute inset-0 opacity-70" />

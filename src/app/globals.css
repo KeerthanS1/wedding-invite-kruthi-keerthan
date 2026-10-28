@@ -105,6 +105,22 @@ html.lenis body {
   font-weight: 500;
 }
 
+/* Phones: a gentle bob on the "scroll down" chevrons */
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.6;
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 1.6s ease-in-out infinite;
+}
+
 /* A soft double-beat for hearts */
 @keyframes heartbeat {
   0%,
@@ -142,6 +158,7 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .scroll-cue,
   .heartbeat,
   .drift,
   .digit {
