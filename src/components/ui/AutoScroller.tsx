@@ -13,16 +13,23 @@ interface AutoScrollerProps {
 }
 
 /** Wait this long after the visitor stops interacting before drifting again. */
-const RESUME_MS = 2500;
+const RESUME_MS = 2000;
+/** How quickly a flick's momentum fades (per 16 ms frame). */
+const FRICTION = 0.94;
 
 /**
- * A row that drifts sideways on its own, in an endless loop, and that visitors can also
- * scroll themselves: swipe on phones, drag with the mouse or use a trackpad on computers.
- * It pauses while hovered, touched or off-screen. Vertical page scrolling is never captured.
+ * A row of photos that drifts sideways on its own, in an endless loop, and that visitors can
+ * also move themselves at any moment: swipe on phones (with momentum), drag with a mouse, or
+ * scroll sideways on a trackpad.
+ *
+ * Everything is one position value applied as a transform: there is no native scroll position
+ * for the drift and the visitor to fight over, so a swipe always responds immediately, even
+ * mid-drift. `touch-action: pan-y` leaves vertical page scrolling to the browser.
  */
 export function AutoScroller({ children, speed = 30, label, className }: AutoScrollerProps) {
   const reduce = useReducedMotion();
   const rowRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const halfRef = useRef<HTMLDivElement>(null);
   const dragMoved = useRef(false);
 
@@ -39,123 +46,132 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
 
   useEffect(() => {
     const row = rowRef.current;
+    const track = trackRef.current;
     const halfEl = halfRef.current;
-    if (!row || !halfEl) return;
+    if (!row || !track || !halfEl) return;
 
+    let offset = 0; // how far the track is shifted left, in px
+    let velocity = 0; // px per ms, left over from a flick
     let visible = false;
     let hovering = false;
-    let pressing = false;
+    let dragging = false;
+    let pointerId = -1;
+    let startX = 0;
+    let lastX = 0;
+    let lastMove = 0;
     let resumeAt = 0;
-    let pos = 0;
     let last = 0;
     let frame = 0;
 
     const pauseForUser = () => {
       resumeAt = performance.now() + RESUME_MS;
     };
-
-    // The two halves are identical, so any position p looks exactly like p ± one loop.
-    // We keep the position between 0.5 and 1.5 loops, which leaves half a loop of room to
-    // swipe in either direction. Re-centring only ever happens while the row is drifting on
-    // its own (never mid-swipe), so a finger's momentum scroll is never interrupted.
-    const recentre = () => {
+    // The two halves are identical, so wrapping the offset by one half is invisible.
+    const paint = () => {
       const loop = halfEl.offsetWidth;
-      if (loop <= 0) return;
-      if (pos >= loop * 1.5) pos -= loop;
-      else if (pos < loop * 0.5) pos += loop;
+      if (loop > 0) offset = ((offset % loop) + loop) % loop;
+      track.style.transform = `translate3d(${-offset}px,0,0)`;
     };
-    const startInMiddle = () => {
-      pos = halfEl.offsetWidth * 0.5;
-      row.scrollLeft = pos;
-    };
-    startInMiddle();
 
     const tick = (time: number) => {
       const dt = last ? Math.min(time - last, 64) : 0;
       last = time;
-      const idle = visible && !hovering && !pressing && time > resumeAt;
-      if (idle) {
-        if (!reduce) pos += (speed * dt) / 1000;
-        recentre();
-        if (Math.abs(row.scrollLeft - pos) > 0.5) row.scrollLeft = pos;
-      } else {
-        pos = row.scrollLeft;
+      if (!dragging && Math.abs(velocity) > 0.01) {
+        // glide after a flick
+        offset += velocity * dt;
+        velocity *= Math.pow(FRICTION, dt / 16);
+        pauseForUser();
+      } else if (!dragging && visible && !hovering && time > resumeAt && !reduce) {
+        offset += (speed * dt) / 1000;
       }
+      paint();
       frame = requestAnimationFrame(tick);
     };
 
-    // Real interaction is detected from the visitor's input, not from scroll events
-    // (our own tiny steps get rounded by the browser and would look like user scrolls).
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) pauseForUser(); // sideways trackpad swipe
+    // Swipe (touch) and drag (mouse)
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragging = true;
+      pointerId = e.pointerId;
+      startX = lastX = e.clientX;
+      lastMove = performance.now();
+      velocity = 0;
+      dragMoved.current = false;
+      pauseForUser();
     };
-    const onScroll = () => {
-      if (performance.now() <= resumeAt || pressing) pos = row.scrollLeft;
+    const onMove = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== pointerId) return;
+      const now = performance.now();
+      const dx = e.clientX - lastX;
+      if (!dragMoved.current && Math.abs(e.clientX - startX) > 5) {
+        dragMoved.current = true;
+        // keep following the finger or mouse even if it leaves the row
+        try {
+          row.setPointerCapture(e.pointerId);
+        } catch {}
+      }
+      offset -= dx;
+      velocity = 0.8 * (-dx / Math.max(now - lastMove, 1)) + 0.2 * velocity;
+      lastX = e.clientX;
+      lastMove = now;
+      pauseForUser();
+    };
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerId !== pointerId) return;
+      dragging = false;
+      pointerId = -1;
+      if (performance.now() - lastMove > 80) velocity = 0; // held still before letting go: no flick
+      pauseForUser();
+    };
+    // The browser took the gesture over (the visitor is scrolling the page vertically).
+    const onCancel = (e: PointerEvent) => {
+      if (e.pointerId !== pointerId) return;
+      dragging = false;
+      pointerId = -1;
+      velocity = 0;
     };
 
-    // Mouse drag to scroll (touch and trackpads scroll natively).
-    let startX = 0;
-    let startLeft = 0;
-    const onPointerDown = (e: PointerEvent) => {
-      pressing = true;
-      pauseForUser();
-      if (e.pointerType !== "mouse") return;
-      startX = e.clientX;
-      startLeft = row.scrollLeft;
-      dragMoved.current = false;
-      const onMove = (ev: PointerEvent) => {
-        const dx = ev.clientX - startX;
-        if (Math.abs(dx) > 5) dragMoved.current = true;
-        row.scrollLeft = startLeft - dx;
-        pos = row.scrollLeft;
-      };
-      const onUp = () => {
-        pressing = false;
-        pauseForUser();
-        window.removeEventListener("pointermove", onMove);
-        window.removeEventListener("pointerup", onUp);
-      };
-      window.addEventListener("pointermove", onMove);
-      window.addEventListener("pointerup", onUp);
-    };
-    const onTouchStart = () => {
-      pressing = true;
+    // Sideways trackpad swipes (and shift + mouse wheel). Vertical wheel scrolls the page.
+    const onWheel = (e: WheelEvent) => {
+      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+      if (!dx) return;
+      e.preventDefault();
+      offset += dx;
+      velocity = 0;
       pauseForUser();
     };
-    const onTouchEnd = () => {
-      pressing = false;
-      pauseForUser();
-    };
+
     const onEnter = (e: PointerEvent) => {
       if (e.pointerType === "mouse") hovering = true;
     };
-    const onLeave = () => {
-      hovering = false;
+    const onLeave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") hovering = false;
     };
 
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
     });
     io.observe(row);
-    row.addEventListener("scroll", onScroll, { passive: true });
-    row.addEventListener("wheel", onWheel, { passive: true });
-    row.addEventListener("pointerdown", onPointerDown);
-    row.addEventListener("touchstart", onTouchStart, { passive: true });
-    row.addEventListener("touchend", onTouchEnd, { passive: true });
-    row.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    row.addEventListener("pointerdown", onDown);
+    row.addEventListener("pointermove", onMove);
+    row.addEventListener("pointerup", onUp);
+    row.addEventListener("pointercancel", onCancel);
+    row.addEventListener("lostpointercapture", onUp);
+    row.addEventListener("wheel", onWheel, { passive: false });
     row.addEventListener("pointerenter", onEnter);
     row.addEventListener("pointerleave", onLeave);
+    paint();
     frame = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frame);
       io.disconnect();
-      row.removeEventListener("scroll", onScroll);
+      row.removeEventListener("pointerdown", onDown);
+      row.removeEventListener("pointermove", onMove);
+      row.removeEventListener("pointerup", onUp);
+      row.removeEventListener("pointercancel", onCancel);
+      row.removeEventListener("lostpointercapture", onUp);
       row.removeEventListener("wheel", onWheel);
-      row.removeEventListener("pointerdown", onPointerDown);
-      row.removeEventListener("touchstart", onTouchStart);
-      row.removeEventListener("touchend", onTouchEnd);
-      row.removeEventListener("touchcancel", onTouchEnd);
       row.removeEventListener("pointerenter", onEnter);
       row.removeEventListener("pointerleave", onLeave);
     };
@@ -166,10 +182,9 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
       ref={rowRef}
       role="region"
       aria-label={label}
-      className={cn(
-        "cursor-grab overflow-x-auto overflow-y-hidden overscroll-x-contain active:cursor-grabbing [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-        className,
-      )}
+      className={cn("cursor-grab select-none overflow-hidden active:cursor-grabbing", className)}
+      // vertical page scrolling stays with the browser; sideways movement is handled here
+      style={{ touchAction: "pan-y" }}
       // a drag should not also count as a click on the photo underneath
       onClickCapture={(e) => {
         if (dragMoved.current) {
@@ -180,7 +195,7 @@ export function AutoScroller({ children, speed = 30, label, className }: AutoScr
       }}
       onDragStart={(e) => e.preventDefault()}
     >
-      <div className="flex w-max">
+      <div ref={trackRef} className="flex w-max will-change-transform">
         <div ref={halfRef} className="flex shrink-0">
           {half}
         </div>
