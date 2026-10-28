@@ -8,7 +8,8 @@ import { cn, EASE_OUT } from "@/lib/utils";
 import { Kannada } from "@/components/ui/Kannada";
 import { ScriptName } from "@/components/ui/ScriptName";
 
-const SLIDE_MS = 2000;
+/** Each photo stays fully in view for 2 s, then the next one fades in over 0.9 s (see .hero-slide). */
+const SLIDE_MS = 2900;
 
 const container: Variants = {
   hidden: {},
