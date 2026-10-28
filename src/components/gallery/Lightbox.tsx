@@ -160,9 +160,8 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
         )}
       </div>
 
-      <p className="shrink-0 px-6 py-4 text-center font-display text-lg italic text-cream/75 sm:py-6">
-        {photo.placeholder ? "" : photo.alt}
-      </p>
+      {/* breathing room below the photo, matching the bar above so the photo sits centred */}
+      <div className="h-[4.25rem] shrink-0 sm:h-[5.25rem]" aria-hidden="true" />
 
       {/* warm adjacent frames so navigation feels instant */}
       <div className="pointer-events-none absolute size-px overflow-hidden opacity-0" aria-hidden="true">

@@ -9,8 +9,8 @@ import type { PhotoGroup, PhotoInput } from "@/types";
  *
  *    public/images/hero/        photos for the opening carousel on laptops/desktops (wide photos)
  *    public/images/hero-mobile/ photos for the opening carousel on phones (tall photos)
- *                               (both carousels start on a random photo on every visit)
- *    public/images/invitation/  10 photos under the invitation, in file-name order
+ *                               (both carousels play in file-name order)
+ *    public/images/invitation/  11 photos under the invitation, in file-name order
  *                               (any extras join the scrolling gallery)
  *    public/images/couple/      bride.jpg and groom.jpg
  *    public/images/gallery/     everything else, for the scrolling gallery
@@ -36,7 +36,7 @@ export const photoFolders: Record<PhotoGroup, string> = {
 
 export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
   // position = which part stays in view when a photo is cropped (mostly phones).
-  // The hero shows these in a random order on every visit.
+  // The hero plays these in this order.
   hero: [
     { file: "01-courtyard-hd.jpg", alt: "Keerthan leading Kruthi by the hand through a traditional courtyard", position: "45% 40%" },
     { file: "02-flowers-hd.jpg", alt: "Kruthi and Keerthan sitting close and laughing by a sunlit window, behind a vase of flowers", position: "62% 45%" },
@@ -51,8 +51,8 @@ export const photoConfig: Record<PhotoGroup, PhotoInput[]> = {
 /** How many photos each spot shows */
 export const limits = {
   hero: 4,
-  heroMobile: 6,
-  invitation: 10,
+  heroMobile: 7,
+  invitation: 11,
 } as const;
 
 export const couplePhotos = {

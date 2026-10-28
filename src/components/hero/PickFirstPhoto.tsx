@@ -1,7 +1,7 @@
 /**
  * Runs while the HTML is still being read, before any of the site's JavaScript loads:
- * for each hero carousel (phone and larger-screen sets) it shuffles the play order afresh on
- * every page load, shows the first photo, marks the next one, and for the visible set asks the browser to fetch that
+ * for each hero carousel (phone and larger-screen sets) it records the play order (file-name
+ * order), shows the first photo, marks the next one, and for the visible set asks the browser to fetch that
  * first photo straight away with a high-priority preload hint. Nothing React renders is modified except
  * classes and data-* attributes that the Hero component expects.
  *
@@ -13,7 +13,6 @@ document.querySelectorAll('[data-hero-set]').forEach(function(set){
   var n=s.length;
   if(!n)return;
   var order=[];for(var k=0;k<n;k++)order.push(k);
-  for(var j=n-1;j>0;j--){var r=Math.floor(Math.random()*(j+1));var t=order[j];order[j]=order[r];order[r]=t;}
   set.setAttribute('data-order',order.join(','));
   s[order[0]].classList.add('is-active');
   if(n>1)s[order[1]].classList.add('is-next');

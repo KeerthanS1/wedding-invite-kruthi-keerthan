@@ -24,9 +24,9 @@ const ORIGINS = ["50% 40%", "30% 60%", "70% 45%", "55% 70%"];
 
 type SetKey = "desktop" | "mobile";
 
-/** The shuffled play order for one carousel, and where we are in it. */
+/** The play order for one carousel, and where we are in it. */
 interface SlideState {
-  /** slide indexes in the order they play (shuffled fresh on every page load) */
+  /** slide indexes in the order they play (file-name order) */
   order: number[];
   /** current position in `order` */
   pos: number;
@@ -109,7 +109,7 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
   const [slides, setSlides] = useState<Record<SetKey, SlideState> | null>(null);
   const [tick, setTick] = useState(0); // restarts the timer after a manual dot click
 
-  // Pick up the random order chosen by the inline script, and follow the screen size.
+  // Pick up the play order set by the inline script, and follow the screen size.
   useEffect(() => {
     const section = sectionRef.current;
     const start = (set: SetKey, count: number): SlideState => {
@@ -118,7 +118,7 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
       const valid = order.length === count && order.every((i) => i >= 0 && i < count);
       return { order: valid ? order : Array.from({ length: count }, (_, i) => i), pos: 0, prevPos: -1 };
     };
-    // the order was shuffled outside React, before load (see PickFirstPhoto)
+    // the order was set outside React, before load (see PickFirstPhoto)
     setSlides({ desktop: start("desktop", photos.length), mobile: start("mobile", mobilePhotos.length) });
     const mq = window.matchMedia("(max-width: 767px)");
     const sync = () => setIsMobile(mq.matches);
@@ -197,7 +197,7 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
             key={set}
             className={cn("absolute inset-x-0 bottom-6 z-10 justify-center gap-2.5", set === "desktop" ? "hidden md:flex" : "flex md:hidden")}
           >
-            {/* one dot per step in the (shuffled) play order */}
+            {/* one dot per step in the play order */}
             {list.map((_, i) => {
               const current = slides?.[set].pos === i;
               return (
