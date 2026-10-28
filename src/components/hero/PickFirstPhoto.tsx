@@ -1,7 +1,7 @@
 /**
  * Runs while the HTML is still being read, before any of the site's JavaScript loads:
- * for the hero carousel that is actually visible (phone or larger-screen set), it picks a
- * random starting photo, shows it, marks the next one, and asks the browser to fetch that
+ * for each hero carousel (phone and larger-screen sets) it shuffles the play order afresh on
+ * every page load, shows the first photo, marks the next one, and for the visible set asks the browser to fetch that
  * first photo straight away with a high-priority preload hint. Nothing React renders is modified except
  * classes and data-* attributes that the Hero component expects.
  *
@@ -10,17 +10,19 @@
 const SCRIPT = `(function(){
 document.querySelectorAll('[data-hero-set]').forEach(function(set){
   var s=set.querySelectorAll('[data-slide]');
-  if(!s.length)return;
-  var i=Math.floor(Math.random()*s.length);
-  set.setAttribute('data-start',String(i));
-  s[i].classList.add('is-active');
-  if(s.length>1)s[(i+1)%s.length].classList.add('is-next');
+  var n=s.length;
+  if(!n)return;
+  var order=[];for(var k=0;k<n;k++)order.push(k);
+  for(var j=n-1;j>0;j--){var r=Math.floor(Math.random()*(j+1));var t=order[j];order[j]=order[r];order[r]=t;}
+  set.setAttribute('data-order',order.join(','));
+  s[order[0]].classList.add('is-active');
+  if(n>1)s[order[1]].classList.add('is-next');
   if(getComputedStyle(set).display==='none')return;
-  var set1x=s[i].getAttribute('data-preload');
-  if(!set1x)return;
+  var srcset=s[order[0]].getAttribute('data-preload');
+  if(!srcset)return;
   var l=document.createElement('link');
   l.rel='preload';l.as='image';
-  l.setAttribute('imagesrcset',set1x);
+  l.setAttribute('imagesrcset',srcset);
   l.setAttribute('fetchpriority','high');
   document.head.appendChild(l);
 });

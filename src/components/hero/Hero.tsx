@@ -24,9 +24,14 @@ const ORIGINS = ["50% 40%", "30% 60%", "70% 45%", "55% 70%"];
 
 type SetKey = "desktop" | "mobile";
 
+/** The shuffled play order for one carousel, and where we are in it. */
 interface SlideState {
-  index: number;
-  prev: number;
+  /** slide indexes in the order they play (shuffled fresh on every page load) */
+  order: number[];
+  /** current position in `order` */
+  pos: number;
+  /** previous position (still shown underneath while the next photo fades in), or -1 */
+  prevPos: number;
 }
 
 /** A URL from Next's image optimiser: resized to `w` pixels wide and compressed (WebP). */
@@ -61,17 +66,20 @@ function Slides({
   state: SlideState | null;
 }) {
   const n = photos.length;
+  const activeIdx = state ? state.order[state.pos] : -1;
+  const nextIdx = state && n > 1 ? state.order[(state.pos + 1) % n] : -1;
+  const prevIdx = state && state.prevPos >= 0 ? state.order[state.prevPos] : -1;
   return (
     <div
       data-hero-set={set}
-      // <PickFirstPhoto /> adds data-start / slide classes before React loads
+      // <PickFirstPhoto /> adds data-order / slide classes before React loads
       suppressHydrationWarning
       className={cn("absolute inset-0", set === "desktop" ? "hidden md:block" : "md:hidden")}
     >
       {photos.map((photo, i) => {
-        const active = state?.index === i;
-        const next = state && n > 1 && (state.index + 1) % n === i && !active;
-        const prev = state && state.prev === i && !active;
+        const active = activeIdx === i;
+        const next = nextIdx === i && !active;
+        const prev = prevIdx === i && !active;
         return (
           <div
             key={photo.src}
@@ -101,28 +109,30 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
   const [slides, setSlides] = useState<Record<SetKey, SlideState> | null>(null);
   const [tick, setTick] = useState(0); // restarts the timer after a manual dot click
 
-  // Pick up the random start chosen by the inline script, and follow the screen size.
+  // Pick up the random order chosen by the inline script, and follow the screen size.
   useEffect(() => {
     const section = sectionRef.current;
-    const start = (set: SetKey) => {
-      const raw = section?.querySelector(`[data-hero-set="${set}"]`)?.getAttribute("data-start");
-      const i = raw ? Number(raw) : 0;
-      return { index: i, prev: -1 };
+    const start = (set: SetKey, count: number): SlideState => {
+      const raw = section?.querySelector(`[data-hero-set="${set}"]`)?.getAttribute("data-order");
+      const order = raw ? raw.split(",").map(Number) : [];
+      const valid = order.length === count && order.every((i) => i >= 0 && i < count);
+      return { order: valid ? order : Array.from({ length: count }, (_, i) => i), pos: 0, prevPos: -1 };
     };
-    // the start photo was chosen outside React, before load (see PickFirstPhoto)
-    setSlides({ desktop: start("desktop"), mobile: start("mobile") });
+    // the order was shuffled outside React, before load (see PickFirstPhoto)
+    setSlides({ desktop: start("desktop", photos.length), mobile: start("mobile", mobilePhotos.length) });
     const mq = window.matchMedia("(max-width: 767px)");
     const sync = () => setIsMobile(mq.matches);
     sync();
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- read once, on load
   }, []);
 
   const activeSet: SetKey = isMobile ? "mobile" : "desktop";
   const activePhotos = isMobile ? mobilePhotos : photos;
 
-  const goTo = (set: SetKey, i: number) =>
-    setSlides((s) => (s && s[set].index !== i ? { ...s, [set]: { index: i, prev: s[set].index } } : s));
+  const goTo = (set: SetKey, pos: number) =>
+    setSlides((s) => (s && s[set].pos !== pos ? { ...s, [set]: { ...s[set], pos, prevPos: s[set].pos } } : s));
 
   useEffect(() => {
     if (!slides || isMobile === null || activePhotos.length < 2) return;
@@ -130,7 +140,7 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
       setSlides((s) => {
         if (!s) return s;
         const cur = s[activeSet];
-        return { ...s, [activeSet]: { index: (cur.index + 1) % activePhotos.length, prev: cur.index } };
+        return { ...s, [activeSet]: { ...cur, pos: (cur.pos + 1) % activePhotos.length, prevPos: cur.pos } };
       });
     }, SLIDE_MS);
     return () => window.clearInterval(id);
@@ -187,11 +197,12 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
             key={set}
             className={cn("absolute inset-x-0 bottom-6 z-10 justify-center gap-2.5", set === "desktop" ? "hidden md:flex" : "flex md:hidden")}
           >
-            {list.map((photo, i) => {
-              const current = slides?.[set].index === i;
+            {/* one dot per step in the (shuffled) play order */}
+            {list.map((_, i) => {
+              const current = slides?.[set].pos === i;
               return (
                 <button
-                  key={photo.src}
+                  key={i}
                   type="button"
                   aria-label={`Show photo ${i + 1} of ${list.length}`}
                   aria-current={current ? "true" : undefined}

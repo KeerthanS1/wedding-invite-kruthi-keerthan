@@ -91,8 +91,15 @@ export function Invitation({ photos }: { photos: Photo[] }) {
     >
       {/* warm glows, faint kolam dots and drifting beans */}
       <div aria-hidden="true" className="pulli pointer-events-none absolute inset-0 opacity-70" />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-40 top-10 size-[30rem] rounded-full bg-amber/25 blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-40 bottom-40 size-[28rem] rounded-full bg-rust/15 blur-3xl" />
+      {/* soft glows as plain radial gradients: no blur filter, so phones paint them instantly and evenly */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 0% 8%, rgb(244 174 82 / 0.28), transparent 42%), radial-gradient(circle at 100% 72%, rgb(212 98 26 / 0.14), transparent 40%)",
+        }}
+      />
       <Beans />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-8">
