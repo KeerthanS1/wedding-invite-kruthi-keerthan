@@ -21,7 +21,7 @@ export function ScrollCue() {
       type="button"
       onClick={goNext}
       aria-label="Scroll down to the invitation"
-      className="flex w-full justify-center bg-cream pt-2 text-rust md:hidden"
+      className="flex h-10 w-full items-center justify-center bg-cream text-rust md:hidden"
     >
       <span className="scroll-cue flex flex-col items-center" aria-hidden="true">
         <ChevronDown className="size-5" />

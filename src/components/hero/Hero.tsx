@@ -152,7 +152,7 @@ export function Hero({ photos, mobilePhotos }: { photos: Photo[]; mobilePhotos: 
       ref={sectionRef}
       id="home"
       aria-label="Welcome"
-      className="relative isolate flex h-[86svh] min-h-[30rem] w-full items-end justify-center overflow-hidden bg-espresso md:h-svh md:min-h-[32rem]"
+      className="relative isolate flex h-[calc(100svh-2.5rem)] min-h-[30rem] w-full items-end justify-center overflow-hidden bg-espresso md:h-svh md:min-h-[32rem]"
     >
       <div className="absolute inset-0 -z-10">
         <Slides set="desktop" photos={photos} state={slides?.desktop ?? null} />
