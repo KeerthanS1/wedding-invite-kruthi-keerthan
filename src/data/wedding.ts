@@ -140,7 +140,7 @@ export const finalQuote = {
 export const countdown = {
   kn: "ಶುಭ ಮುಹೂರ್ತಕ್ಕೆ ಇನ್ನು",
   heading: "Counting Down to Forever",
-  doneMessage: "The day we've been waiting for is finally here! ❤️",
+  doneMessage: "The day we’ve been waiting for is finally here!",
 } as const;
 
 export const footer = {

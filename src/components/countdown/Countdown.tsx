@@ -38,6 +38,20 @@ export function Countdown() {
   const placeholder = "––";
   const done = left?.done ?? false;
 
+  // Once the moment arrives, only the message remains, in the same lettering as the couple's names.
+  if (done) {
+    return (
+      <section id="countdown" aria-label="The wedding day" className="bg-amber py-20 sm:py-32">
+        <Reveal className="mx-auto max-w-4xl px-5 text-center sm:px-8">
+          <p className="text-balance font-script text-[clamp(2.6rem,9vw,5.5rem)] leading-[1.25] text-espresso">{countdown.doneMessage}</p>
+          <svg viewBox="0 0 30 28" className="heartbeat mx-auto mt-6 size-9 text-rust-deep sm:size-11" aria-hidden="true" focusable="false">
+            <path d="M15 27 C4 19 0 12 4 6 C7 2 13 2 15 7 C17 2 23 2 26 6 C30 12 26 19 15 27Z" fill="currentColor" />
+          </svg>
+        </Reveal>
+      </section>
+    );
+  }
+
   return (
     <section id="countdown" aria-labelledby="countdown-heading" className="bg-amber py-14 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-8">
@@ -49,20 +63,14 @@ export function Countdown() {
           </p>
         </Reveal>
 
-        {done ? (
-          <Reveal className="mt-8">
-            <p className="text-balance font-display text-2xl text-cocoa sm:text-4xl">{countdown.doneMessage}</p>
-          </Reveal>
-        ) : (
-          <Reveal className="mt-8 sm:mt-10" delay={0.15}>
-            <div role="timer" aria-label="Time remaining until the wedding ceremony" className="grid grid-cols-4 gap-2.5 sm:gap-5">
-              <Unit label="Days" tilt="-rotate-2" value={left ? String(left.days) : placeholder} />
-              <Unit label="Hours" tilt="rotate-1" value={left ? pad(left.hours) : placeholder} />
-              <Unit label="Minutes" tilt="-rotate-1" value={left ? pad(left.minutes) : placeholder} />
-              <Unit label="Seconds" tilt="rotate-2" value={left ? pad(left.seconds) : placeholder} />
-            </div>
-          </Reveal>
-        )}
+        <Reveal className="mt-8 sm:mt-10" delay={0.15}>
+          <div role="timer" aria-label="Time remaining until the wedding ceremony" className="grid grid-cols-4 gap-2.5 sm:gap-5">
+            <Unit label="Days" tilt="-rotate-2" value={left ? String(left.days) : placeholder} />
+            <Unit label="Hours" tilt="rotate-1" value={left ? pad(left.hours) : placeholder} />
+            <Unit label="Minutes" tilt="-rotate-1" value={left ? pad(left.minutes) : placeholder} />
+            <Unit label="Seconds" tilt="rotate-2" value={left ? pad(left.seconds) : placeholder} />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
