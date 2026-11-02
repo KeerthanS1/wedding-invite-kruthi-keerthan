@@ -1,14 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { Maximize, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { teaser } from "@/data/wedding";
 import { teaserVideo } from "@/data/photos";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
-const controlButton =
-  "flex h-10 items-center gap-2 rounded-full bg-cream/90 px-4 text-sm font-semibold text-cocoa shadow-lg backdrop-blur transition-transform hover:scale-105";
+/** Small round icons on phones, so they don't cover the film; icon and label on larger screens. */
+const controlBase =
+  "flex h-8 w-8 items-center justify-center gap-2 rounded-full bg-cream/85 text-cocoa shadow-md backdrop-blur transition-transform hover:scale-105 sm:h-10 sm:bg-cream/90 sm:text-sm sm:font-semibold sm:shadow-lg";
+const controlButton = `${controlBase} sm:w-auto sm:px-4`;
+const controlIcon = "size-3.5 sm:size-4";
+const controlLabel = "hidden sm:inline";
+
+/** iPhones can only show the video itself full screen, through this older call. */
+type FullscreenVideo = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+  webkitDisplayingFullscreen?: boolean;
+};
 
 /**
  * The teaser film. It autoplays when it scrolls into view and pauses when it leaves,
@@ -44,7 +54,7 @@ export function Teaser() {
         inView.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           if (!pausedByVisitor.current) playWithSound();
-        } else {
+        } else if (document.fullscreenElement !== video && !(video as FullscreenVideo).webkitDisplayingFullscreen) {
           video.pause();
         }
       },
@@ -85,6 +95,23 @@ export function Teaser() {
     setMuted(video.muted);
   };
 
+  const openFullscreen = () => {
+    const video = videoRef.current as FullscreenVideo | null;
+    if (!video) return;
+    if (video.requestFullscreen) {
+      video
+        .requestFullscreen()
+        .then(() => {
+          // Android: turn sideways to fill the screen (other browsers refuse, which is fine)
+          const orientation = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
+          orientation.lock?.("landscape").catch(() => {});
+        })
+        .catch(() => video.webkitEnterFullscreen?.());
+    } else {
+      video.webkitEnterFullscreen?.();
+    }
+  };
+
   return (
     <section id="teaser" aria-labelledby="teaser-heading" className="relative overflow-hidden bg-cocoa py-14 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-8">
@@ -94,12 +121,16 @@ export function Teaser() {
           <div className="relative overflow-hidden rounded-3xl bg-espresso shadow-[10px_10px_0_var(--color-amber)] sm:shadow-[14px_14px_0_var(--color-amber)]">
             <video
               ref={videoRef}
-              className="block aspect-video w-full cursor-pointer object-cover"
+              className="block aspect-video w-full cursor-pointer object-cover [&:fullscreen]:object-contain"
               loop
               playsInline
               muted
               preload="metadata"
-              onClick={togglePlay}
+              // full screen has the browser's own controls, which handle taps themselves
+              onClick={() => {
+                if (document.fullscreenElement !== videoRef.current) togglePlay();
+              }}
+              onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
             >
@@ -119,15 +150,20 @@ export function Teaser() {
               </button>
             )}
 
-            <div className="absolute inset-x-3 bottom-3 flex justify-between gap-2 sm:inset-x-5 sm:bottom-5">
+            <div className="absolute inset-x-2 bottom-2 flex justify-between gap-2 sm:inset-x-5 sm:bottom-5">
               <button type="button" onClick={togglePlay} aria-label={playing ? "Pause the teaser" : "Play the teaser"} className={controlButton}>
-                {playing ? <Pause className="size-4 fill-current" aria-hidden="true" /> : <Play className="size-4 fill-current" aria-hidden="true" />}
-                {playing ? "Pause" : "Play"}
+                {playing ? <Pause className={`${controlIcon} fill-current`} aria-hidden="true" /> : <Play className={`${controlIcon} fill-current`} aria-hidden="true" />}
+                <span className={controlLabel}>{playing ? "Pause" : "Play"}</span>
               </button>
-              <button type="button" onClick={toggleSound} aria-label={muted ? "Turn sound on" : "Turn sound off"} className={controlButton}>
-                {muted ? <VolumeX className="size-4" aria-hidden="true" /> : <Volume2 className="size-4" aria-hidden="true" />}
-                {muted ? "Tap for sound" : "Sound on"}
-              </button>
+              <div className="flex gap-2">
+                <button type="button" onClick={toggleSound} aria-label={muted ? "Turn sound on" : "Turn sound off"} className={controlButton}>
+                  {muted ? <VolumeX className={controlIcon} aria-hidden="true" /> : <Volume2 className={controlIcon} aria-hidden="true" />}
+                  <span className={controlLabel}>{muted ? "Tap for sound" : "Sound on"}</span>
+                </button>
+                <button type="button" onClick={openFullscreen} aria-label="Watch the teaser full screen" className={`${controlBase} sm:w-10`}>
+                  <Maximize className={controlIcon} aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
         </Reveal>
