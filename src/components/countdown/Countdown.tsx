@@ -6,6 +6,7 @@ import { getTimeLeft, type TimeLeft } from "@/lib/countdown";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Fireworks } from "./Fireworks";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -42,6 +43,7 @@ export function Countdown() {
   if (done) {
     return (
       <section id="countdown" aria-label="The wedding day" className="bg-amber py-20 sm:py-32">
+        <Fireworks />
         <Reveal className="mx-auto max-w-4xl px-5 text-center sm:px-8">
           <p className="text-balance font-script text-[clamp(2.6rem,9vw,5.5rem)] leading-[1.25] text-espresso">{countdown.doneMessage}</p>
           <svg viewBox="0 0 30 28" className="heartbeat mx-auto mt-6 size-9 text-rust-deep sm:size-11" aria-hidden="true" focusable="false">
